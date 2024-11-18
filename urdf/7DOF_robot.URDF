@@ -48,31 +48,8 @@
 
     <!-- q2 -->
     <joint name="q2" type="revolute">
-        <origin xyz="0.0 0.045 0.045" rpy="-1.57 0.0 0.0"/>
+        <origin xyz="0.0 0.045 0.045" rpy="-1.57 -1.57 0.0"/>
         <parent link="Joint1"/>
-        <child link="Link1"/>
-        <axis xyz="0 0 1"/>
-        <limit lower="-3.14" upper="3.14" effort="1000" velocity="0.0"/>
-    </joint>
-
-    <!-- Link1  -->
-    <link name="Link1">
-        <visual>
-            <geometry>
-                <mesh filename="../meshes/Link1.STL" />
-            </geometry>
-        </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Link1.STL"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <!-- q3 -->
-    <joint name="q3" type="revolute">
-        <origin xyz="0.345 0.0 0.045" rpy="0.0 -1.57 3.14"/>
-        <parent link="Link1"/>
         <child link="Joint2"/>
         <axis xyz="0 0 1"/>
         <limit lower="-3.14" upper="3.14" effort="1000" velocity="0.0"/>
@@ -92,25 +69,48 @@
         </collision>
     </link>
 
+    <!-- q3 -->
+    <joint name="q3" type="revolute">
+        <origin xyz="0.0 0.045 0.045" rpy="-1.57 0.0 0.0"/>
+        <parent link="Joint2"/>
+        <child link="Link1"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-3.14" upper="3.14" effort="1000" velocity="0.0"/>
+    </joint>
+
+    <!-- Link1 -->
+    <link name="Link1">
+        <visual>
+            <geometry>
+                <mesh filename="../meshes/Link1_2.STL" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="../meshes/Link1_2.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
     <!-- q4 -->
     <joint name="q4" type="revolute">
-        <origin xyz="0.0 0.045 0.045" rpy="-1.57 -1.57 0.0"/>
-        <parent link="Joint2"/>
+        <origin xyz="0.0 0.045 0.345" rpy="-1.57 -1.57 0.0"/>
+        <parent link="Link1"/>
         <child link="Link2"/>
         <axis xyz="0 0 1"/>
         <limit lower="-3.14" upper="3.14" effort="1000" velocity="0.0"/>
     </joint>
 
-    <!-- Link2  -->
+    <!-- Link2 -->
     <link name="Link2">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Link1.STL" />
+                <mesh filename="../meshes/Link1_1.STL" />
             </geometry>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Link1.STL"/>
+                <mesh filename="../meshes/Link1_1.STL"/>
             </geometry>
         </collision>
     </link>
@@ -140,7 +140,7 @@
 
     <!-- q6 -->
     <joint name="q6" type="revolute">
-        <origin xyz="0.0 0.045 0.045" rpy="-1.57 1.57 0.0"/>
+        <origin xyz="0.0 0.045 0.045" rpy="-1.57 0.0 0.0"/>
         <parent link="Joint3"/>
         <child link="Joint4"/>
         <axis xyz="0 0 1"/>
@@ -163,7 +163,7 @@
 
     <!-- q7 -->
     <joint name="q7" type="revolute">
-        <origin xyz="0.0 0.045 0.045" rpy="-1.57 1.57 0.0"/>
+        <origin xyz="0.0 0.045 0.045" rpy="-1.57 0.0 0.0"/>
         <parent link="Joint4"/>
         <child link="Gripper"/>
         <axis xyz="0 0 1"/>
