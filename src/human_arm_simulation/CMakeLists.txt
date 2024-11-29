@@ -27,7 +27,9 @@ ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
 install(PROGRAMS
-  scripts/dummy_script.py
+  scripts/controller_node.py
+  scripts/input_node.py
+  scripts/jointstate_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
