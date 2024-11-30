@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <robot name="7DOF_ROBOT">
     <!-- World -->
     <link name="world"/>

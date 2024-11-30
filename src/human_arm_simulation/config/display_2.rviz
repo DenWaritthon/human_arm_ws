@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /RobotModel1
       Splitter Ratio: 0.5
     Tree Height: 549
   - Class: rviz_common/Selection
@@ -65,21 +66,7 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        elbow:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shoulder1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        shoulder2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        shoulder3:
+        Shoulder1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -88,20 +75,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        wrist1:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        wrist2:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        wrist3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
       Mass Properties:
         Inertia: false
         Mass: false
@@ -115,21 +88,9 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        elbow:
-          Value: true
-        shoulder1:
-          Value: true
-        shoulder2:
-          Value: true
-        shoulder3:
+        Shoulder1:
           Value: true
         world:
-          Value: true
-        wrist1:
-          Value: true
-        wrist2:
-          Value: true
-        wrist3:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -138,14 +99,8 @@ Visualization Manager:
       Show Names: false
       Tree:
         world:
-          shoulder1:
-            shoulder2:
-              shoulder3:
-                elbow:
-                  wrist1:
-                    wrist2:
-                      wrist3:
-                        {}
+          Shoulder1:
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -194,7 +149,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.8072739839553833
+      Distance: 1.9379568099975586
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1

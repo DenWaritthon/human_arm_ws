@@ -16,7 +16,7 @@ def generate_launch_description():
         arguments=['-d', rviz_path],
         output='screen')
     
-    path_description = os.path.join(pkg,'robot','visual','7DOF_robot.xacro')
+    path_description = os.path.join(pkg,'robot','visual','Human_mockup.xacro')
     robot_desc_xml = xacro.process_file(path_description).toxml()
     
     parameters = [{'robot_description':robot_desc_xml}]
@@ -26,15 +26,9 @@ def generate_launch_description():
                                   parameters=parameters
     )
 
-    joint_state_publisher_gui = Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui'
-    )
-
     launch_description = LaunchDescription()
     
     launch_description.add_action(rviz)
     launch_description.add_action(robot_state_publisher)
-    launch_description.add_action(joint_state_publisher_gui)
     
     return launch_description
