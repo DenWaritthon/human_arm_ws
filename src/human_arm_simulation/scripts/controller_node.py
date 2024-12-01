@@ -122,7 +122,7 @@ class ControllerNode(Node):
 
             if self.target_in_workspace:
                 self.get_logger().info(f'Target is in work space.')
-                self.call_moveJ()
+                self.call_moveL()
                 self.robot_ready = False
                 response.target_in_workspace = True
             else:
@@ -134,7 +134,28 @@ class ControllerNode(Node):
         return response
 
     def moveL_target_callback(self, request:MoveL.Request, response:MoveL.Response):
-        pass
+        if self.robot_ready:
+            self.target[0] = request.target.position.x
+            self.target[1] = request.target.position.y
+            self.target[2] = request.target.position.z
+            self.target[3] = request.target.orientation.x
+            self.target[4] = request.target.orientation.y
+            self.target[5] = request.target.orientation.z
+
+            self.calculate_invert_kinematic()
+
+            if self.target_in_workspace:
+                self.get_logger().info(f'Target is in work space.')
+                self.call_moveL()
+                self.robot_ready = False
+                response.target_in_workspace = True
+            else:
+                self.get_logger().info(f'Target out of work space can not move!')
+        else:
+            self.get_logger().info(f'Not ready to move')
+        
+        response.success =True
+        return response
 
     def robot_ready_callback(self, request:RobotReady.Request, response:RobotReady.Response):
         self.robot_ready = request.ready
