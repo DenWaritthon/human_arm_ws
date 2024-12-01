@@ -83,7 +83,7 @@
     <link name="wrist1">
         <visual>
             <geometry>
-                <cylinder length="0.35" radius="0.05"/>
+                <cylinder length="0.4" radius="0.05"/>
             </geometry>
             <origin xyz="0.0 0.0 -0.2" rpy="0.0 0.0 0.0"/>
         </visual>
