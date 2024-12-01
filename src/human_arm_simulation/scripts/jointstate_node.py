@@ -7,6 +7,7 @@ import roboticstoolbox as rbt
 from spatialmath import *
 import numpy as np
 from math import pi
+from scipy.linalg import svd
 
 from sensor_msgs.msg import JointState
 from human_arm_interfaces.srv import *
@@ -24,6 +25,7 @@ class JointstateNode(Node):
         self.create_service(MoveL ,'/moveL' ,self.moveL_callback)
 
         # Service client
+        self.robot_ready_client = self.create_client(RobotReady, '/robot_ready')
 
         # Timmer 
         self.dt = 0.01
@@ -61,6 +63,11 @@ class JointstateNode(Node):
 
         # Display Node start
         self.get_logger().info(f'JointState Start Node.')
+
+    def send_robot_ready(self):
+        msg = RobotReady.Request()
+        msg.ready = True
+        self.robot_ready_client.call_async(msg)
 
     def moveJ_callback(self, request:MoveJ.Request, response:MoveJ.Response):
         # get q value
@@ -146,6 +153,7 @@ class JointstateNode(Node):
             if all(abs(i) < 0.01 for i in dq):
                 self.moveJ = False
                 self.get_logger().info(f'MoveJ stop.')
+                self.send_robot_ready()
 
         if self.moveL:
             self.velocity_calculation()
@@ -155,24 +163,36 @@ class JointstateNode(Node):
             Jt = J.transpose()
             Jit = np.linalg.inv(np.dot(J,J.transpose()))
             J_new = np.dot(Jt,Jit)
-            q_dot = np.dot(J_new,self.vel)
 
-            for i in range(len(self.q)):
-                self.q[i] = self.q[i] + q_dot[i]
+            # Compute singular values
+            U, S, Vh = svd(J)
 
-            current_pos = self.human_arm.fkine(self.q)
-            pos_check = [
-                self.target[0] - current_pos.x,
-                self.target[1] - current_pos.y,
-                self.target[2] - current_pos.z,
-                self.target[3] - current_pos.rpy()[0], # roll
-                self.target[4] - current_pos.rpy()[1], # pitch
-                self.target[5] - current_pos.rpy()[2] # yall
-            ]
-            
-            if all(abs(i) < self.velocity for i in pos_check):
+            if np.any(S < 1e-6):
                 self.moveL = False
                 self.get_logger().info(f'MoveL stop.')
+                self.get_logger().info(f'Human arm is near singularity.')
+                self.send_robot_ready()
+            else:
+                # calculation q_dot
+                q_dot = np.dot(J_new,self.vel)
+
+                for i in range(len(self.q)):
+                    self.q[i] = self.q[i] + q_dot[i]
+
+                current_pos = self.human_arm.fkine(self.q)
+                pos_check = [
+                    self.target[0] - current_pos.x,
+                    self.target[1] - current_pos.y,
+                    self.target[2] - current_pos.z,
+                    self.target[3] - current_pos.rpy()[0], # roll
+                    self.target[4] - current_pos.rpy()[1], # pitch
+                    self.target[5] - current_pos.rpy()[2] # yall
+                ]
+                
+                if all(abs(i) < self.velocity for i in pos_check):
+                    self.moveL = False
+                    self.get_logger().info(f'MoveL stop.')
+                    self.send_robot_ready()
 
         for i in range(len(self.q)): 
             joint_msg.position.append(self.q[i])
