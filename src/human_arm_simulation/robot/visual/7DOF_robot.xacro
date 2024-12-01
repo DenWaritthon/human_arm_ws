@@ -14,13 +14,13 @@
     <link name="Base">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Base.STL" />
+                <mesh filename="package://human_arm_simulation/meshes/Base.STL" />
             </geometry>
             <origin xyz="0.0 0.16 0.0" rpy="0.0 0.0 -1.57"/>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Base.STL" />
+                <mesh filename="package://human_arm_simulation/meshes/Base.STL" />
             </geometry>
             <origin xyz="0.0 0.16 0.0" rpy="0.0 0.0 -1.57"/>
         </collision>
@@ -39,12 +39,12 @@
     <link name="shoulder1">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Shoulder1.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Shoulder1.STL"/>
             </geometry>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Shoulder1.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Shoulder1.STL"/>
             </geometry>
         </collision>
     </link>
@@ -74,13 +74,13 @@
     <link name="shoulder3">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Shoulder3.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Shoulder3.STL"/>
             </geometry>
             <origin xyz="0.165 0.0 0.0" rpy="-1.57 0.0 0.0"/>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Shoulder3.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Shoulder3.STL"/>
             </geometry>
             <origin xyz="0.165 0.0 0.0" rpy="-1.57 0.0 0.0"/>
         </collision>
@@ -99,12 +99,12 @@
     <link name="elbow">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Elbow.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Elbow.STL"/>
             </geometry>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Elbow.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Elbow.STL"/>
             </geometry>
         </collision>
     </link>
@@ -122,13 +122,13 @@
     <link name="wrist1">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Wrist1.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Wrist1.STL"/>
             </geometry>
             <origin xyz="0.0 0.0 -0.2" rpy="0.0 0.0 -1.57"/>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Wrist1.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Wrist1.STL"/>
             </geometry>
             <origin xyz="0.0 0.0 -0.2" rpy="0.0 0.0 -1.57"/>
         </collision>
@@ -159,13 +159,13 @@
     <link name="wrist3">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Wrist3.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Wrist3.STL"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0 0.0 0.0"/>
         </visual>
         <collision>
             <geometry>
-                <mesh filename="../meshes/Wrist3.STL"/>
+                <mesh filename="package://human_arm_simulation/meshes/Wrist3.STL"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0 0.0 0.0"/>
         </collision>
