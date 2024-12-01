@@ -3,33 +3,10 @@
     <!-- World -->
     <link name="world"/>
 
-    <!-- World link Base -->
-    <joint name="fixed" type="fixed">
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        <parent link="world"/>
-        <child link="Base"/>
-    </joint>
-
-    <!-- Base  -->
-    <link name="Base">
-        <visual>
-            <geometry>
-                <mesh filename="../meshes/Base.STL" />
-            </geometry>
-            <origin xyz="-0.16 0.0 0.05" rpy="0.0 0.0 0.0"/>
-        </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Base.STL" />
-            </geometry>
-            <origin xyz="-0.16 0.0 0.05" rpy="0.0 0.0 0.0"/>
-        </collision>
-    </link>
-
     <!-- q1 -->
     <joint name="q1" type="revolute">
         <origin xyz="0.0 0.0 1.0" rpy="1.57 0.0 0.0"/>
-        <parent link="Base"/>
+        <parent link="world"/>
         <child link="shoulder1"/>
         <axis xyz="0 0 1"/>
         <limit lower="-0.87" upper="3.14" effort="1000" velocity="0.0"/>
@@ -39,14 +16,9 @@
     <link name="shoulder1">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Shoulder1.STL"/>
+                <sphere radius="0.05"/>
             </geometry>
         </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Shoulder1.STL"/>
-            </geometry>
-        </collision>
     </link>
 
     <!-- q2 -->
@@ -74,21 +46,15 @@
     <link name="shoulder3">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Shoulder3.STL"/>
+                <cylinder length="0.4" radius="0.05"/>
             </geometry>
-            <origin xyz="0.165 0.0 0.0" rpy="-1.57 0.0 0.0"/>
+            <origin xyz="0.2 0.0 0.0" rpy="0.0 1.57 0.0"/>
         </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Shoulder3.STL"/>
-            </geometry>
-            <origin xyz="0.165 0.0 0.0" rpy="-1.57 0.0 0.0"/>
-        </collision>
     </link>
 
     <!-- q4 -->
     <joint name="q4" type="revolute">
-        <origin xyz="0.32 0.0 0.0" rpy="-1.57 -1.57 0.0"/>
+        <origin xyz="0.4 0.0 0.0" rpy="-1.57 -1.57 0.0"/>
         <parent link="shoulder3"/>
         <child link="elbow"/>
         <axis xyz="0 0 1"/>
@@ -99,19 +65,14 @@
     <link name="elbow">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Elbow.STL"/>
+                <sphere radius="0.05"/>
             </geometry>
         </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Elbow.STL"/>
-            </geometry>
-        </collision>
     </link>
 
     <!-- q5 -->
     <joint name="q5" type="revolute">
-        <origin xyz="0.0 0.355 0.0" rpy="-1.57 0.0 0.0"/>
+        <origin xyz="0.0 0.4 0.0" rpy="-1.57 0.0 0.0"/>
         <parent link="elbow"/>
         <child link="wrist1"/>
         <axis xyz="0 0 1"/>
@@ -122,16 +83,10 @@
     <link name="wrist1">
         <visual>
             <geometry>
-                <mesh filename="../meshes/Wrist1.STL"/>
+                <cylinder length="0.35" radius="0.05"/>
             </geometry>
-            <origin xyz="0.0 0.0 -0.2" rpy="0.0 0.0 -1.57"/>
+            <origin xyz="0.0 0.0 -0.2" rpy="0.0 0.0 0.0"/>
         </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Wrist1.STL"/>
-            </geometry>
-            <origin xyz="0.0 0.0 -0.2" rpy="0.0 0.0 -1.57"/>
-        </collision>
     </link>
 
     <!-- q6 -->
@@ -148,7 +103,7 @@
 
      <!-- q7 -->
     <joint name="q7" type="revolute">
-        <origin xyz="-0.05 0.0 0.0" rpy="1.57 0.0 0.0"/>
+        <origin xyz="0.0 0.0 0.0" rpy="1.57 0.0 0.0"/>
         <parent link="wrist2"/>
         <child link="wrist3"/>
         <axis xyz="0 0 1"/>
@@ -157,18 +112,11 @@
 
     <!-- Wrist3 -->
     <link name="wrist3">
-        <visual>
+            <visual>
             <geometry>
-                <mesh filename="../meshes/Wrist3.STL"/>
+                <box size="0.2 0.1 0.1"/>
             </geometry>
-            <origin xyz="0 0.0 0.0" rpy="-1.57 0.0 0.0"/>
         </visual>
-        <collision>
-            <geometry>
-                <mesh filename="../meshes/Wrist3.STL"/>
-            </geometry>
-            <origin xyz="0 0.0 0.0" rpy="-1.57 0.0 0.0"/>
-        </collision>
     </link>
 
 </robot>
