@@ -28,6 +28,7 @@ endif()
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/MoveJ.srv"
   "srv/MoveL.srv"
+  "srv/JointEffort.srv"
   "srv/RobotReady.srv"
   DEPENDENCIES geometry_msgs # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )

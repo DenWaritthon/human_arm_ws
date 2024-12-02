@@ -7,7 +7,6 @@ from spatialmath import *
 import numpy as np
 from math import pi
 
-from sensor_msgs.msg import JointState
 from human_arm_interfaces.srv import *
 
 class ControllerNode(Node):
@@ -18,11 +17,13 @@ class ControllerNode(Node):
         self.create_service(MoveJ ,'/moveJ_q' ,self.moveJ_q_callback)
         self.create_service(MoveJ ,'/moveJ_target' ,self.moveJ_target_callback)
         self.create_service(MoveL ,'/moveL_target' ,self.moveL_target_callback)
+        self.create_service(JointEffort ,'/input_wrench' ,self.input_wrench_callback)
         self.create_service(RobotReady ,'/robot_ready' ,self.robot_ready_callback)
         
         # Service client
         self.moveJ_client = self.create_client(MoveJ, '/moveJ')
         self.moveL_client = self.create_client(MoveL, '/moveL')
+        self.calculation_effort_client = self.create_client(JointEffort, '/calculation_effort')
 
         # Defind DH-Table 3R-R-3R
         self.human_arm = rbt.DHRobot([
@@ -47,6 +48,9 @@ class ControllerNode(Node):
         # moveL variable
         self.target = [0, 0, 0, 0, 0, 0]
         self.velocity = 0.01
+
+        # Input wrench variable
+        self.wrench = [0, 0, 0, 0, 0, 0]
 
         # Display Node start
         self.get_logger().info(f'Controller Start Node.')
@@ -75,6 +79,17 @@ class ControllerNode(Node):
         msg.velocity = self.velocity
 
         self.moveL_client.call_async(msg)
+    
+    def call_calculation_effort(self):
+        msg = JointEffort.Request()
+        msg.wrench.force.x = self.wrench[0]
+        msg.wrench.force.y = self.wrench[1]
+        msg.wrench.force.z = self.wrench[2]
+        msg.wrench.torque.x = self.wrench[3]
+        msg.wrench.torque.y = self.wrench[4]
+        msg.wrench.torque.z = self.wrench[5]
+        
+        self.calculation_effort_client.call_async(msg)
 
     def calculate_invert_kinematic(self):
         target_xyz = SE3(self.target[0], self.target[1], self.target[2])
@@ -157,6 +172,22 @@ class ControllerNode(Node):
         response.success =True
         return response
 
+    def input_wrench_callback(self, request:JointEffort.Request, response:JointEffort.Response):
+        if self.robot_ready:
+            self.wrench[0] = request.wrench.force.x
+            self.wrench[1] = request.wrench.force.y
+            self.wrench[2] = request.wrench.force.z
+            self.wrench[3] = request.wrench.torque.x
+            self.wrench[4] = request.wrench.torque.y
+            self.wrench[5] = request.wrench.torque.z
+
+            self.robot_ready = False
+            response.success = True
+            self.call_calculation_effort()
+        else:
+            self.get_logger().info(f'Not ready to calculation joint effort.')
+        return response
+    
     def robot_ready_callback(self, request:RobotReady.Request, response:RobotReady.Response):
         self.robot_ready = request.ready
         self.get_logger().info(f'Ready to move')

@@ -19,10 +19,12 @@ class JointstateNode(Node):
 
         # Pub Topic
         self.joint_pub = self.create_publisher(JointState, "/joint_states", 10)
+        self.joint_effort_pub = self.create_publisher(JointState, "/joint_effort", 10)
 
         # Service server
         self.create_service(MoveJ ,'/moveJ' ,self.moveJ_callback)
         self.create_service(MoveL ,'/moveL' ,self.moveL_callback)
+        self.create_service(JointEffort ,'/calculation_effort' ,self.calculation_effort_callback)
 
         # Service client
         self.robot_ready_client = self.create_client(RobotReady, '/robot_ready')
@@ -60,6 +62,10 @@ class JointstateNode(Node):
         self.target = [0, 0, 0, 0, 0, 0]
         self.velocity = 0.1
         self.vel = [0, 0, 0, 0, 0, 0]
+
+        # joint effort variable
+        self.wrench = [0, 0, 0, 0, 0, 0]
+        self.joint_effort = [0, 0, 0, 0, 0, 0, 0]
 
         # Display Node start
         self.get_logger().info(f'JointState Start Node.')
@@ -101,6 +107,32 @@ class JointstateNode(Node):
 
         self.moveL = True
         self.get_logger().info(f'MoveL start.')
+        return response
+    
+    def calculation_effort_callback(self, request:JointEffort.Request, response:JointEffort.Response):
+        self.wrench[0] = request.wrench.force.x
+        self.wrench[1] = request.wrench.force.y
+        self.wrench[2] = request.wrench.force.z
+        self.wrench[3] = request.wrench.torque.x
+        self.wrench[4] = request.wrench.torque.y
+        self.wrench[5] = request.wrench.torque.z
+        
+        J = self.human_arm.jacob0(self.q)
+        self.joint_effort = np.dot(J.transpose(),self.wrench)
+
+        
+        msg = JointState()
+        msg.header.stamp = self.get_clock().now().to_msg()
+        for i in range(len(self.q)): 
+            msg.effort.append(self.joint_effort[i])
+            msg.name.append(self.name[i])
+
+        self.joint_effort_pub.publish(msg)
+        self.send_robot_ready()
+
+        response.success = True
+
+        # self.get_logger().info(f'Joint effort is {self.joint_effort}')
         return response
 
     def velocity_calculation(self):
