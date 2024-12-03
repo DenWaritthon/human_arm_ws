@@ -18,7 +18,7 @@ ORANGE = (255, 165, 0)
 pygame.font.init()
 FONT = pygame.font.SysFont('Arial', 30)
 SMALL_FONT = pygame.font.SysFont('Arial', 20)
-MED_FONT = pygame.font.SysFont('Arial',45)
+MED_FONT = pygame.font.SysFont('Arial',30)
 
 
 class ToggleButton:
@@ -211,7 +211,7 @@ movej_titles = [
 ]
 
 left_section_top = section_y + button_height + 50
-scrollbar_width = 300
+scrollbar_width = 100
 scrollbar_height = 20
 scrollbar_x = 150
 scrollbar_spacing = 50
@@ -232,41 +232,41 @@ for i, (lower, upper) in enumerate(joint_limits):
     scrollbars.append(ScrollBar(scrollbar_x, y_pos, scrollbar_width, scrollbar_height, f"q{i+1}", lower, upper))
     y_pos += scrollbar_spacing
 
-move_button = Button(scrollbar_x, y_pos + 20, 300, 50, "Move")
+move_button = Button(scrollbar_x, y_pos + 20, 100, 50, "Move")
 
 # Extend Main Program
-x_input = InputBox(SCREEN_WIDTH // 2 + 250, 300+100, 200, 40)  # Input for X
-y_input = InputBox(SCREEN_WIDTH // 2 + 250, 360+100, 200, 40)  # Input for Y
-z_input = InputBox(SCREEN_WIDTH // 2 + 250, 420+100, 200, 40)  # Input for Z
-target_move_button = Button(SCREEN_WIDTH // 2 + 200, 700+100, 300, 50, "Move")  # Move button for Target J Ref by World
+x_input = InputBox(SCREEN_WIDTH // 2 + 100, 300+50, 200, 40)  # Input for X
+y_input = InputBox(SCREEN_WIDTH // 2 + 100, 360+50, 200, 40)  # Input for Y
+z_input = InputBox(SCREEN_WIDTH // 2 + 100, 420+50, 200, 40)  # Input for Z
+target_move_button = Button(SCREEN_WIDTH // 2 +150, 700+50, 100, 50, "Move")  # Move button for Target J Ref by World
 
 
-roll_input = InputBox(SCREEN_WIDTH // 2 + 250, 500+100, 200, 40)  # Input for Roll
-pitch_input = InputBox(SCREEN_WIDTH // 2 + 250, 560+100, 200, 40)  # Input for Pitch
-yaw_input = InputBox(SCREEN_WIDTH // 2 + 250, 620+100, 200, 40)  # Input for Yaw
+roll_input = InputBox(SCREEN_WIDTH // 2 + 100, 500+50, 200, 40)  # Input for Roll
+pitch_input = InputBox(SCREEN_WIDTH // 2 + 100, 560+50, 200, 40)  # Input for Pitch
+yaw_input = InputBox(SCREEN_WIDTH // 2 + 100, 620+50, 200, 40)  # Input for Yaw
 
 # InputBox instances for Position
-position_x_input = InputBox(SCREEN_WIDTH // 6 - 100, 250+100, 200, 40, "")  # Input for Position X
-position_y_input = InputBox(SCREEN_WIDTH // 6 - 100, 310+100, 200, 40, "")  # Input for Position Y
-position_z_input = InputBox(SCREEN_WIDTH // 6 - 100, 370+100, 200, 40, "")  # Input for Position Z
+position_x_input = InputBox(SCREEN_WIDTH // 6 - 50, 250+100, 100, 40, "")  # Input for Position X
+position_y_input = InputBox(SCREEN_WIDTH // 6 - 50, 310+100, 100, 40, "")  # Input for Position Y
+position_z_input = InputBox(SCREEN_WIDTH // 6 - 50, 370+100, 100, 40, "")  # Input for Position Z
 
-position_roll_input = InputBox(SCREEN_WIDTH // 6 - 100, 430+120, 200, 40, "")
-position_pitch_input = InputBox(SCREEN_WIDTH // 6 - 100, 490+120, 200, 40, "")
-position_yaw_input = InputBox(SCREEN_WIDTH // 6 - 100, 550+120, 200, 40, "")
+position_roll_input = InputBox(SCREEN_WIDTH // 6 - 50, 430+120, 100, 40, "")
+position_pitch_input = InputBox(SCREEN_WIDTH // 6 - 50, 490+120, 100, 40, "")
+position_yaw_input = InputBox(SCREEN_WIDTH // 6 - 50, 550+120, 100, 40, "")
 
-movel_move_button = Button(SCREEN_WIDTH // 6 - 150, 650 + 120, 300, 50, "Move")  # Positioned in the Joint Effort section
+movel_move_button = Button(SCREEN_WIDTH // 6 - 50, 650 + 120, 100, 50, "Move")  # Positioned in the Joint Effort section
 
 
 # InputBox instances for Force
-force_x_input = InputBox(SCREEN_WIDTH // 2 - 100, 250+100, 200, 40, "")  # Input for Force X
-force_y_input = InputBox(SCREEN_WIDTH // 2 - 100, 310+100, 200, 40, "")  # Input for Force Y
-force_z_input = InputBox(SCREEN_WIDTH // 2 - 100, 370+100, 200, 40, "")  # Input for Force Z
+force_x_input = InputBox(SCREEN_WIDTH // 2 -20, 250+100, 100, 40, "")  # Input for Force X
+force_y_input = InputBox(SCREEN_WIDTH // 2  -20, 310+100, 100, 40, "")  # Input for Force Y
+force_z_input = InputBox(SCREEN_WIDTH // 2  -20, 370+100, 100, 40, "")  # Input for Force Z
 
-torque_x_input = InputBox(SCREEN_WIDTH // 2 - 100, 450+100, 200, 40, "")  # Input for Force X
-torque_y_input = InputBox(SCREEN_WIDTH // 2 - 100, 510+100, 200, 40, "")  # Input for Force Y
-torque_z_input = InputBox(SCREEN_WIDTH // 2 - 100, 570+100, 200, 40, "")  # Input for Force Z
+torque_x_input = InputBox(SCREEN_WIDTH // 2  -20, 450+100, 100, 40, "")  # Input for Force X
+torque_y_input = InputBox(SCREEN_WIDTH // 2  -20, 510+100, 100, 40, "")  # Input for Force Y
+torque_z_input = InputBox(SCREEN_WIDTH // 2  -20, 570+100, 100, 40, "")  # Input for Force Z
 
-calculate_button = Button(SCREEN_WIDTH  // 2 + 150, 650 + 120, 300, 50, "Calculate")  # Positioned in the Joint Effort section
+calculate_button = Button(SCREEN_WIDTH  // 2 + 50, 650 + 120, 150, 50, "Calculate")  # Positioned in the Joint Effort section
 
 
 # Placeholder text values for Joint Effort
@@ -429,7 +429,7 @@ while running:
         # Display text values for Joint Efforts
         for i, effort in enumerate(joint_effort_values):
             effort_surface = MED_FONT.render(effort, True, BLACK)
-            effort_rect = effort_surface.get_rect(topleft=(5 * SCREEN_WIDTH // 6 - 125, 250 + 100 + i * 50))
+            effort_rect = effort_surface.get_rect(topleft=(5 * SCREEN_WIDTH // 6 - 90 , 250 + 100 + i * 50))
             screen.blit(effort_surface, effort_rect)
 
         # Draw the Move button for MoveL
