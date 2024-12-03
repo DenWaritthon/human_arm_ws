@@ -3,6 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from human_arm_interfaces.srv import *
+import pygame
 
 
 class InputNode(Node):
@@ -15,12 +16,16 @@ class InputNode(Node):
         self.moveL_target_client = self.create_client(MoveL, '/moveL_target')
         self.input_wrench_client = self.create_client(JointEffort, '/input_wrench')
 
+
+
 def main(args=None):
     rclpy.init(args=args)
+    pygame.init()
     node = InputNode()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+    pygame.quit()
 
 if __name__=='__main__':
     main()
