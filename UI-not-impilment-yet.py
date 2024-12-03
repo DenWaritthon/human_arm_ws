@@ -270,7 +270,7 @@ calculate_button = Button(SCREEN_WIDTH  // 2 + 50, 650 + 120, 150, 50, "Calculat
 
 
 # Placeholder text values for Joint Effort
-joint_effort_values = ["Joint 1: 0.00", "Joint 2: 0.00", "Joint 3: 0.00", "Joint 4: 0.00", "Joint 5: 0.00", "Joint 6: 0.00"]
+joint_effort_values = ["Joint 1: 0.00", "Joint 2: 0.00", "Joint 3: 0.00", "Joint 4: 0.00", "Joint 5: 0.00", "Joint 6: 0.00", "Joint 7: 0.00"]
 
 
 # Add a Move Button for MoveL in the 3rd section
