@@ -4,6 +4,7 @@ import rclpy
 from rclpy.node import Node
 from human_arm_interfaces.srv import *
 import pygame
+from config.element import *
 
 
 class InputNode(Node):
