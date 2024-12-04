@@ -113,7 +113,7 @@ class InputBox:
 class ScrollBar:
     """Scrollbar Class to handle joint sliders."""
     def __init__(self, x, y, width, height, label, lower_limit, upper_limit):
-        self.rect = pygame.Rect(x, y, width, height)  # Outer rectangle (track)
+        self.rect = pygame.Rect(x, y, width, height)  # Outer rectangle (track)s
         self.slider_rect = pygame.Rect(x, y, height, height)  # Slider button
         self.value = lower_limit  # Default value starts at lower limit
         self.lower_limit = lower_limit
@@ -121,16 +121,29 @@ class ScrollBar:
         self.dragging = False
         self.label = label
 
+        # Add input box for value
+        input_box_width = 60
+        input_box_height = 30
+        self.input_box = InputBox(
+            x + width//2 - input_box_width//2,  # Center above scrollbar
+            y - input_box_height - 5,  # 5 pixels above scrollbar
+            input_box_width,
+            input_box_height,
+            text=f"{self.value:.2f}"
+        )
+
     def draw(self, screen):
-        # Draw the track
+        # Draw the track and slider
         pygame.draw.rect(screen, GRAY, self.rect)
-        # Draw the slider button
         pygame.draw.rect(screen, BLUE, self.slider_rect)
 
         # Draw the label
         label_surface = SMALL_FONT.render(self.label, True, BLACK)
         label_rect = label_surface.get_rect(midright=(self.rect.left - 70, self.rect.centery))
         screen.blit(label_surface, label_rect)
+
+        # Draw input box instead of static value text
+        self.input_box.draw(screen)
 
         # Draw the value above the scrollbar
         value_text = f"{self.value:.2f}"  # Format the value to 2 decimal places
@@ -152,20 +165,39 @@ class ScrollBar:
         screen.blit(upper_limit_surface, upper_limit_rect)
 
     def handle_event(self, event):
+        # Handle input box events
+        self.input_box.handle_event(event)
+        
+        # Update slider if input box value changes
+        if self.input_box.active and event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            new_value = self.input_box.get_value()
+            self.set_value(new_value)
+
+        # Handle slider events
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.slider_rect.collidepoint(event.pos):
-                self.dragging = True  # Start dragging the slider
+                self.dragging = True
 
         elif event.type == pygame.MOUSEBUTTONUP:
-            self.dragging = False  # Stop dragging
+            self.dragging = False
 
-        elif event.type == pygame.MOUSEMOTION:
-            if self.dragging:
-                # Update slider position within the track bounds
-                new_x = min(max(event.pos[0], self.rect.left), self.rect.right - self.slider_rect.width)
-                self.slider_rect.x = new_x
-                # Map the slider position to the value range (lower_limit to upper_limit)
-                self.value = self.lower_limit + ((self.slider_rect.x - self.rect.left) / (self.rect.width - self.slider_rect.width)) * (self.upper_limit - self.lower_limit)
+        elif event.type == pygame.MOUSEMOTION and self.dragging:
+            new_x = min(max(event.pos[0], self.rect.left), self.rect.right - self.slider_rect.width)
+            self.slider_rect.x = new_x
+            # Update both value and input box text when sliding
+            self.value = self.lower_limit + ((self.slider_rect.x - self.rect.left) / 
+                (self.rect.width - self.slider_rect.width)) * (self.upper_limit - self.lower_limit)
+            self.input_box.text = f"{self.value:.2f}"
+            self.input_box.txt_surface = FONT.render(self.input_box.text, True, BLACK)
+    def set_value(self, new_value):
+        """Set the value and update slider position"""
+        self.value = min(max(new_value, self.lower_limit), self.upper_limit)
+        # Update slider position based on value
+        normalized_pos = (self.value - self.lower_limit) / (self.upper_limit - self.lower_limit)
+        self.slider_rect.x = self.rect.left + normalized_pos * (self.rect.width - self.slider_rect.width)
+        # Update input box
+        self.input_box.text = f"{self.value:.2f}"
+        self.input_box.txt_surface = FONT.render(self.input_box.text, True, BLACK)
 
     def get_value(self):
         return self.value
