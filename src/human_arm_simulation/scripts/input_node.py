@@ -141,6 +141,16 @@ class InputNode(Node):
 
         self.show_values = False
         self.running = True
+        
+        # MoveJ_q variable
+        self.q_goal = [0, 0, 0, 0, 0, 0, 0]
+
+        # MoveJ_target and MoveL_target variable
+        self.target = [0, 0, 0, 0, 0, 0]
+
+        # joint effort variable
+        self.wrench = [0, 0, 0, 0, 0, 0]
+        self.joint_effort = [0, 0, 0, 0, 0, 0, 0]
 
         
     def call_moveJ_q(self):
