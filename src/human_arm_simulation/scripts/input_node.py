@@ -29,7 +29,7 @@ class InputNode(Node):
 
         # Screen setup
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        pygame.display.set_caption("Human Arm Robot UI")
+        pygame.display.set_caption("Human arm Kinematic Simulation Input")
 
         # Colors
         self.WHITE = (255, 255, 255)
@@ -83,7 +83,7 @@ class InputNode(Node):
         self.scrollbar_width = 100
         self.scrollbar_height = 20
         self.scrollbar_x = 150
-        self.scrollbar_spacing = 50
+        self.scrollbar_spacing = 70
 
         joint_limits = [
             (-0.87, 3.14),
@@ -98,7 +98,7 @@ class InputNode(Node):
         self.scrollbars = []
         y_pos = self.left_section_top
         for i, (lower, upper) in enumerate(joint_limits):
-            self.scrollbars.append(ScrollBar(self.scrollbar_x, y_pos, self.scrollbar_width, self.scrollbar_height, f"q{i+1}", lower, upper))
+            self.scrollbars.append(ScrollBar(self.scrollbar_x, y_pos, self.scrollbar_width, self.scrollbar_height, f"Joint:{i+1}", lower, upper))
             y_pos += self.scrollbar_spacing
 
         self.move_button = Button(self.scrollbar_x, 850, 100, 50, "Move") 
@@ -115,24 +115,24 @@ class InputNode(Node):
         self.target_move_button = Button(self.SCREEN_WIDTH // 2 + 150, 700 + 150, 100, 50, "Move")
 
         # Input boxes for MoveL - Position
-        self.position_x_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 250 + 100, 100, 40, "")
-        self.position_y_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 310 + 100, 100, 40, "")
-        self.position_z_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 370 + 100, 100, 40, "")
+        self.position_x_input = InputBox(self.SCREEN_WIDTH // 6 - 20, 250 + 50, 100, 40, "")
+        self.position_y_input = InputBox(self.SCREEN_WIDTH // 6 - 20, 310 +50, 100, 40, "")
+        self.position_z_input = InputBox(self.SCREEN_WIDTH // 6 - 20, 370 + 50, 100, 40, "")
 
-        self.position_roll_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 430 + 220, 100, 40, "")
-        self.position_pitch_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 490 + 220, 100, 40, "")
-        self.position_yaw_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 550 + 220, 100, 40, "")
+        self.position_roll_input = InputBox(self.SCREEN_WIDTH // 6 - 20, 430 + 220, 100, 40, "")
+        self.position_pitch_input = InputBox(self.SCREEN_WIDTH // 6 - 20, 490 + 220, 100, 40, "")
+        self.position_yaw_input = InputBox(self.SCREEN_WIDTH // 6 - 20, 550 + 220, 100, 40, "")
 
-        self.movel_move_button = Button(self.SCREEN_WIDTH // 6 - 50, 650 + 220, 100, 50, "Move")
+        self.movel_move_button = Button(self.SCREEN_WIDTH // 6 - 20, 650 + 220, 100, 50, "Move")
 
         # Input boxes for Wrench - Force
-        self.force_x_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 250 + 100, 100, 40, "")
-        self.force_y_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 310 + 100, 100, 40, "")
-        self.force_z_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 370 + 100, 100, 40, "")
+        self.force_x_input = InputBox(self.SCREEN_WIDTH // 2 + 40, 250 + 100, 100, 40, "")
+        self.force_y_input = InputBox(self.SCREEN_WIDTH // 2 + 40, 310 + 100, 100, 40, "")
+        self.force_z_input = InputBox(self.SCREEN_WIDTH // 2 + 40, 370 + 100, 100, 40, "")
 
-        self.torque_x_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 430 + 220, 100, 40, "")
-        self.torque_y_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 490 + 220, 100, 40, "")
-        self.torque_z_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 550 + 220, 100, 40, "")
+        self.torque_x_input = InputBox(self.SCREEN_WIDTH // 2 + 40, 430 + 220, 100, 40, "")
+        self.torque_y_input = InputBox(self.SCREEN_WIDTH // 2 + 40, 490 + 220, 100, 40, "")
+        self.torque_z_input = InputBox(self.SCREEN_WIDTH // 2 + 40, 550 + 220, 100, 40, "")
 
         self.calculate_button = Button(self.SCREEN_WIDTH // 2 + 80, 650 + 220, 150, 50, "Calculate")
 
@@ -292,19 +292,19 @@ class InputNode(Node):
 
         elif self.toggle_buttons[1].active:  # MoveL Mode
             # Draw dividing lines for 3 sections
-            pygame.draw.line(self.screen, self.BLACK, (self.SCREEN_WIDTH // 3 + 20, self.header_height + 100), (self.SCREEN_WIDTH // 3 + 20, self.SCREEN_HEIGHT), 3)
+            pygame.draw.line(self.screen, self.BLACK, (self.SCREEN_WIDTH // 3 + 50, self.header_height + 100), (self.SCREEN_WIDTH // 3 + 50, self.SCREEN_HEIGHT), 3)
 
             # Draw titles for each section
-            position_title = FONT.render("Input Target Position", True, self.BLACK)
-            position_title_rect = position_title.get_rect(center=(self.SCREEN_WIDTH // 6, self.header_height + 150))
+            position_title = MED_FONT.render("Input Target Position", True, self.BLACK)
+            position_title_rect = position_title.get_rect(center=(self.SCREEN_WIDTH // 6 +30, self.header_height + 150))
             self.screen.blit(position_title, position_title_rect)
 
-            position_title = FONT.render("Input Target Orentation", True, self.BLACK)
-            position_title_rect = position_title.get_rect(center=(self.SCREEN_WIDTH // 6, self.header_height + 480))
+            position_title = MED_FONT.render("Input Target Orentation", True, self.BLACK)
+            position_title_rect = position_title.get_rect(center=(self.SCREEN_WIDTH // 6 +30, self.header_height + 480))
             self.screen.blit(position_title, position_title_rect)
 
             Wrench_title = FONT.render("Wrench", True, self.BLACK)
-            Wrench_title_rect = Wrench_title.get_rect(center=(self.SCREEN_WIDTH // 2 + 20, self.header_height + 150))
+            Wrench_title_rect = Wrench_title.get_rect(center=(self.SCREEN_WIDTH // 2 + 50, self.header_height + 150))
             self.screen.blit(Wrench_title, Wrench_title_rect)
 
             joint_effort_title = FONT.render("Joint Effort", True, self.BLACK)
