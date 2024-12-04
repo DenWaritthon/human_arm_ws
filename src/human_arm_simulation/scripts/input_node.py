@@ -2,13 +2,19 @@
 
 import rclpy
 from rclpy.node import Node
-from human_arm_interfaces.srv import *
+
 import pygame
+
+from sensor_msgs.msg import JointState
+from human_arm_interfaces.srv import *
 from human_arm_simulation.element import *
 
 class InputNode(Node):
     def __init__(self):
         super().__init__('input_node')
+
+        # Sub Topic
+        self.create_subscription(JointState, '/joint_effort', self.joint_effort_callback, 10)
 
         # Service client
         self.moveJ_q_client = self.create_client(MoveJ, '/moveJ_q')
@@ -137,6 +143,53 @@ class InputNode(Node):
         self.running = True
 
         
+    def call_moveJ_q(self):
+        msg = MoveJ.Request()
+        msg.q1 = self.q_goal[0]
+        msg.q2 = self.q_goal[1]
+        msg.q3 = self.q_goal[2]
+        msg.q4 = self.q_goal[3]
+        msg.q5 = self.q_goal[4]
+        msg.q6 = self.q_goal[5]
+        msg.q7 = self.q_goal[6]
+
+        self.moveJ_q_client.call_async(msg)
+
+    def call_moveJ_target(self):
+        msg = MoveJ.Request()
+        msg.target.position.x = self.target[0]
+        msg.target.position.y = self.target[1]
+        msg.target.position.z = self.target[2]
+        msg.target.orientation.x = self.target[3]
+        msg.target.orientation.y = self.target[4]
+        msg.target.orientation.z = self.target[5]
+
+        self.moveJ_target_client.call_async(msg)
+
+    def call_moveL_target(self):
+        msg = MoveJ.Request()
+        msg.target.position.x = self.target[0]
+        msg.target.position.y = self.target[1]
+        msg.target.position.z = self.target[2]
+        msg.target.orientation.x = self.target[3]
+        msg.target.orientation.y = self.target[4]
+        msg.target.orientation.z = self.target[5]
+
+        self.moveL_target_client.call_async(msg)
+
+    def call_input_wrenc(self):
+        msg = JointEffort.Request()
+        msg.wrench.force.x = self.wrench[0]
+        msg.wrench.force.y = self.wrench[1]
+        msg.wrench.force.z = self.wrench[2]
+        msg.wrench.torque.x = self.wrench[3]
+        msg.wrench.torque.y = self.wrench[4]
+        msg.wrench.torque.z = self.wrench[5]
+        
+        self.input_wrench_client.call_async(msg)
+
+    def joint_effort_callback(self, msg:JointState):
+        self.joint_effort = msg.effort
 
     def timer_callback(self):
         if not self.running:
