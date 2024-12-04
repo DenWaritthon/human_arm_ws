@@ -151,7 +151,9 @@ class InputNode(Node):
         # joint effort variable
         self.wrench = [0, 0, 0, 0, 0, 0]
         self.joint_effort = [0, 0, 0, 0, 0, 0, 0]
-
+        
+        # Display Node start
+        self.get_logger().info(f'Input Start Node.')
         
     def call_moveJ_q(self):
         msg = MoveJ.Request()
@@ -177,7 +179,7 @@ class InputNode(Node):
         self.moveJ_target_client.call_async(msg)
 
     def call_moveL_target(self):
-        msg = MoveJ.Request()
+        msg = MoveL.Request()
         msg.target.position.x = self.target[0]
         msg.target.position.y = self.target[1]
         msg.target.position.z = self.target[2]
@@ -187,7 +189,7 @@ class InputNode(Node):
 
         self.moveL_target_client.call_async(msg)
 
-    def call_input_wrenc(self):
+    def call_input_wrench(self):
         msg = JointEffort.Request()
         msg.wrench.force.x = self.wrench[0]
         msg.wrench.force.y = self.wrench[1]
@@ -200,6 +202,16 @@ class InputNode(Node):
 
     def joint_effort_callback(self, msg:JointState):
         self.joint_effort = msg.effort
+        self.joint_effort_values[0] = f"Joint1:{self.joint_effort[0]}"
+        self.joint_effort_values[1] = f"Joint2:{self.joint_effort[1]}"
+        self.joint_effort_values[2] = f"Joint3:{self.joint_effort[2]}"
+        self.joint_effort_values[3] = f"Joint4:{self.joint_effort[3]}"
+        self.joint_effort_values[4] = f"Joint5:{self.joint_effort[4]}"
+        self.joint_effort_values[5] = f"Joint6:{self.joint_effort[5]}"
+        self.joint_effort_values[6] = f"Joint7:{self.joint_effort[6]}"
+
+
+
 
     def timer_callback(self):
         if not self.running:
@@ -208,7 +220,7 @@ class InputNode(Node):
         self.screen.fill(self.WHITE)
 
         # Draw Header
-        title_surface = FONT.render("Human Arm Robot", True, self.BLACK)
+        title_surface = FONT.render("Human arm Simulation Input", True, self.BLACK)
         title_rect = title_surface.get_rect(center=(self.SCREEN_WIDTH // 2, self.header_height // 2))
         self.screen.blit(title_surface, title_rect)
 
@@ -382,10 +394,12 @@ class InputNode(Node):
 
                 if self.move_button.handle_event(event):  # "Move by Q" Move button
                     self.show_values = True
-                    values = [f"{scrollbar.label}: {scrollbar.get_value():.2f}" for scrollbar in self.scrollbars]
-                    print("Move by Q Joint Values:")
-                    for value in values:
-                        print(value)
+                    self.q_goal = [round(scrollbar.get_value(),4) for scrollbar in self.scrollbars]
+                    # print(self.q_goal)
+                    self.call_moveJ_q()
+                    # print("Move by Q Joint Values:")
+                    # for value in values:
+                    #     print(value)
 
                 # Handle inputs in "Target J Ref by World"
                 self.x_input.handle_event(event)
@@ -396,13 +410,14 @@ class InputNode(Node):
                 self.yaw_input.handle_event(event)
 
                 if self.target_move_button.handle_event(event):  # "Target J Ref by World" Move button
-                    x_value = self.x_input.get_value()
-                    y_value = self.y_input.get_value()
-                    z_value = self.z_input.get_value()
-                    roll_value = self.roll_input.get_value()
-                    pitch_value = self.pitch_input.get_value()
-                    yaw_value = self.yaw_input.get_value()
-                    print(f"Move to Target J: X={x_value}, Y={y_value}, Z={z_value}, Roll={roll_value}, Pitch={pitch_value}, Yaw={yaw_value}")
+                    self.target[0] = self.x_input.get_value()
+                    self.target[1] = self.y_input.get_value()
+                    self.target[2] = self.z_input.get_value()
+                    self.target[3] = self.roll_input.get_value()
+                    self.target[4] = self.pitch_input.get_value()
+                    self.target[5] = self.yaw_input.get_value()
+                    self.call_moveJ_target()
+                    print(f"Move to Target J: {self.target}")
 
             # Handle MoveL events
             if self.toggle_buttons[1].active:  # MoveL Mode
@@ -421,24 +436,27 @@ class InputNode(Node):
                 self.torque_z_input.handle_event(event)
 
                 if self.movel_move_button.handle_event(event):  # "MoveL" Move button
-                    pos_x = self.position_x_input.get_value()
-                    pos_y = self.position_y_input.get_value()
-                    pos_z = self.position_z_input.get_value()
-                    roll = self.position_roll_input.get_value()
-                    pitch = self.position_pitch_input.get_value()
-                    yaw = self.position_yaw_input.get_value()
+                    self.target[0] = self.position_x_input.get_value()
+                    self.target[1] = self.position_y_input.get_value()
+                    self.target[2] = self.position_z_input.get_value()
+                    self.target[3] = self.position_roll_input.get_value()
+                    self.target[4] = self.position_pitch_input.get_value()
+                    self.target[5] = self.position_yaw_input.get_value()
+                    print(self.target)
+                    self.call_moveL_target()
 
-                    print(f"Position: X={pos_x}, Y={pos_y}, Z={pos_z}, Roll={roll}, Pitch={pitch}, Yaw={yaw}")
+                    print(f"MoveL to target: {self.target}")
 
                 if self.calculate_button.handle_event(event):
-                    force_x = self.force_x_input.get_value()
-                    force_y = self.force_y_input.get_value()
-                    force_z = self.force_z_input.get_value()
-                    torque_x = self.torque_x_input.get_value()
-                    torque_y = self.torque_y_input.get_value()
-                    torque_z = self.torque_z_input.get_value()
+                    self.wrench[0] = self.force_x_input.get_value()
+                    self.wrench[1]  = self.force_y_input.get_value()
+                    self.wrench[2]  = self.force_z_input.get_value()
+                    self.wrench[3] = self.torque_x_input.get_value()
+                    self.wrench[4] = self.torque_y_input.get_value()
+                    self.wrench[5] = self.torque_z_input.get_value()
+                    self.call_input_wrench()
 
-                    print(f"Wrench : [Force: X={force_x}, Y={force_y}, Z={force_z}, Torque: X={torque_x} , Y={torque_y}, Z={torque_z}]")
+                    print(f"Wrench : {self.wrench}")
 
         # Update cursor visibility for input boxes
         if self.toggle_buttons[0].active:  # MoveJ Mode
