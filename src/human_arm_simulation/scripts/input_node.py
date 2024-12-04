@@ -73,8 +73,9 @@ class InputNode(Node):
         # MoveJ Titles
         self.section_y = self.header_height + 150
         self.movej_titles = [
-            {"text": "Move by Q", "pos": (self.SCREEN_WIDTH // 4, self.section_y + self.button_height // 2)},
-            {"text": "Target J Ref by World", "pos": (3 * self.SCREEN_WIDTH // 4, self.section_y + self.button_height // 2)}
+            {"text": "Input Joint Angle", "pos": (self.SCREEN_WIDTH // 4, self.section_y + self.button_height // 2)},
+            {"text": "Input Target positions", "pos": (3 * self.SCREEN_WIDTH // 4, self.section_y + self.button_height // 2)},
+            {"text": "Input Target Orentations", "pos": (3 * self.SCREEN_WIDTH // 4, 600)}
         ]
 
         # Scrollbars
@@ -100,44 +101,44 @@ class InputNode(Node):
             self.scrollbars.append(ScrollBar(self.scrollbar_x, y_pos, self.scrollbar_width, self.scrollbar_height, f"q{i+1}", lower, upper))
             y_pos += self.scrollbar_spacing
 
-        self.move_button = Button(self.scrollbar_x, y_pos + 20, 100, 50, "Move")
+        self.move_button = Button(self.scrollbar_x, 850, 100, 50, "Move") 
 
         # Input boxes for Target J Ref by World
         self.x_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 300 + 50, 200, 40)
         self.y_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 360 + 50, 200, 40)
         self.z_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 420 + 50, 200, 40)
 
-        self.roll_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 500 + 50, 200, 40)
-        self.pitch_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 560 + 50, 200, 40)
-        self.yaw_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 620 + 50, 200, 40)
+        self.roll_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 500 + 150, 200, 40)
+        self.pitch_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 560 + 150, 200, 40)
+        self.yaw_input = InputBox(self.SCREEN_WIDTH // 2 + 100, 620 + 150, 200, 40)
 
-        self.target_move_button = Button(self.SCREEN_WIDTH // 2 + 150, 700 + 50, 100, 50, "Move")
+        self.target_move_button = Button(self.SCREEN_WIDTH // 2 + 150, 700 + 150, 100, 50, "Move")
 
         # Input boxes for MoveL - Position
         self.position_x_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 250 + 100, 100, 40, "")
         self.position_y_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 310 + 100, 100, 40, "")
         self.position_z_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 370 + 100, 100, 40, "")
 
-        self.position_roll_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 430 + 120, 100, 40, "")
-        self.position_pitch_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 490 + 120, 100, 40, "")
-        self.position_yaw_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 550 + 120, 100, 40, "")
+        self.position_roll_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 430 + 220, 100, 40, "")
+        self.position_pitch_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 490 + 220, 100, 40, "")
+        self.position_yaw_input = InputBox(self.SCREEN_WIDTH // 6 - 50, 550 + 220, 100, 40, "")
 
-        self.movel_move_button = Button(self.SCREEN_WIDTH // 6 - 50, 650 + 120, 100, 50, "Move")
+        self.movel_move_button = Button(self.SCREEN_WIDTH // 6 - 50, 650 + 220, 100, 50, "Move")
 
         # Input boxes for Wrench - Force
-        self.force_x_input = InputBox(self.SCREEN_WIDTH // 2 - 20, 250 + 100, 100, 40, "")
-        self.force_y_input = InputBox(self.SCREEN_WIDTH // 2 - 20, 310 + 100, 100, 40, "")
-        self.force_z_input = InputBox(self.SCREEN_WIDTH // 2 - 20, 370 + 100, 100, 40, "")
+        self.force_x_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 250 + 100, 100, 40, "")
+        self.force_y_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 310 + 100, 100, 40, "")
+        self.force_z_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 370 + 100, 100, 40, "")
 
-        self.torque_x_input = InputBox(self.SCREEN_WIDTH // 2 - 20, 450 + 100, 100, 40, "")
-        self.torque_y_input = InputBox(self.SCREEN_WIDTH // 2 - 20, 510 + 100, 100, 40, "")
-        self.torque_z_input = InputBox(self.SCREEN_WIDTH // 2 - 20, 570 + 100, 100, 40, "")
+        self.torque_x_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 430 + 220, 100, 40, "")
+        self.torque_y_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 490 + 220, 100, 40, "")
+        self.torque_z_input = InputBox(self.SCREEN_WIDTH // 2 + 10, 550 + 220, 100, 40, "")
 
-        self.calculate_button = Button(self.SCREEN_WIDTH // 2 + 50, 650 + 120, 150, 50, "Calculate")
+        self.calculate_button = Button(self.SCREEN_WIDTH // 2 + 80, 650 + 220, 150, 50, "Calculate")
 
         # Placeholder for joint efforts
-        self.joint_effort_values = ["Joint 1: 0.00", "Joint 2: 0.00", "Joint 3: 0.00",
-                                    "Joint 4: 0.00", "Joint 5: 0.00", "Joint 6: 0.00", "Joint 7: 0.00"]
+        self.joint_effort_values = ["Joint 1: 0.0000", "Joint 2: 0.0000", "Joint 3: 0.0000",
+                                    "Joint 4: 0.0000", "Joint 5: 0.0000", "Joint 6: 0.0000", "Joint 7: 0.0000"]
 
         self.show_values = False
         self.running = True
@@ -202,13 +203,13 @@ class InputNode(Node):
 
     def joint_effort_callback(self, msg:JointState):
         self.joint_effort = msg.effort
-        self.joint_effort_values[0] = f"Joint1:{self.joint_effort[0]}"
-        self.joint_effort_values[1] = f"Joint2:{self.joint_effort[1]}"
-        self.joint_effort_values[2] = f"Joint3:{self.joint_effort[2]}"
-        self.joint_effort_values[3] = f"Joint4:{self.joint_effort[3]}"
-        self.joint_effort_values[4] = f"Joint5:{self.joint_effort[4]}"
-        self.joint_effort_values[5] = f"Joint6:{self.joint_effort[5]}"
-        self.joint_effort_values[6] = f"Joint7:{self.joint_effort[6]}"
+        self.joint_effort_values[0] = f"Joint1:{round(self.joint_effort[0]),4}"
+        self.joint_effort_values[1] = f"Joint2:{round(self.joint_effort[1]),4}"
+        self.joint_effort_values[2] = f"Joint3:{round(self.joint_effort[2]),4}"
+        self.joint_effort_values[3] = f"Joint4:{round(self.joint_effort[3]),4}"
+        self.joint_effort_values[4] = f"Joint5:{round(self.joint_effort[4]),4}"
+        self.joint_effort_values[5] = f"Joint6:{round(self.joint_effort[5]),4}"
+        self.joint_effort_values[6] = f"Joint7:{round(self.joint_effort[6]),4}"
 
 
 
@@ -220,7 +221,7 @@ class InputNode(Node):
         self.screen.fill(self.WHITE)
 
         # Draw Header
-        title_surface = FONT.render("Human arm Simulation Input", True, self.BLACK)
+        title_surface = FONT.render("Human arm Kinematic Simulation Input", True, self.BLACK)
         title_rect = title_surface.get_rect(center=(self.SCREEN_WIDTH // 2, self.header_height // 2))
         self.screen.blit(title_surface, title_rect)
 
@@ -291,19 +292,23 @@ class InputNode(Node):
 
         elif self.toggle_buttons[1].active:  # MoveL Mode
             # Draw dividing lines for 3 sections
-            pygame.draw.line(self.screen, self.BLACK, (self.SCREEN_WIDTH // 3, self.header_height + 100), (self.SCREEN_WIDTH // 3, self.SCREEN_HEIGHT), 3)
+            pygame.draw.line(self.screen, self.BLACK, (self.SCREEN_WIDTH // 3 + 20, self.header_height + 100), (self.SCREEN_WIDTH // 3 + 20, self.SCREEN_HEIGHT), 3)
 
             # Draw titles for each section
-            position_title = FONT.render("Position", True, self.BLACK)
+            position_title = FONT.render("Input Target Position", True, self.BLACK)
             position_title_rect = position_title.get_rect(center=(self.SCREEN_WIDTH // 6, self.header_height + 150))
             self.screen.blit(position_title, position_title_rect)
 
+            position_title = FONT.render("Input Target Orentation", True, self.BLACK)
+            position_title_rect = position_title.get_rect(center=(self.SCREEN_WIDTH // 6, self.header_height + 480))
+            self.screen.blit(position_title, position_title_rect)
+
             Wrench_title = FONT.render("Wrench", True, self.BLACK)
-            Wrench_title_rect = Wrench_title.get_rect(center=(self.SCREEN_WIDTH // 2, self.header_height + 150))
+            Wrench_title_rect = Wrench_title.get_rect(center=(self.SCREEN_WIDTH // 2 + 20, self.header_height + 150))
             self.screen.blit(Wrench_title, Wrench_title_rect)
 
             joint_effort_title = FONT.render("Joint Effort", True, self.BLACK)
-            joint_effort_title_rect = joint_effort_title.get_rect(center=(5 * self.SCREEN_WIDTH // 6, self.header_height + 150))
+            joint_effort_title_rect = joint_effort_title.get_rect(center=(5 * self.SCREEN_WIDTH // 6 + 20, self.header_height + 150))
             self.screen.blit(joint_effort_title, joint_effort_title_rect)
 
             # ---- 1st Section: Position ----
@@ -343,6 +348,12 @@ class InputNode(Node):
             self.torque_y_input.draw(self.screen)
             self.torque_z_input.draw(self.screen)
 
+            force_label = SMALL_FONT.render("Linear Force:", True, self.BLACK)
+            self.screen.blit(force_label, (self.force_x_input.rect.x-45, self.force_x_input.rect.y - 50))
+
+            torque_label = SMALL_FONT.render("Angular Torque:", True, self.BLACK)
+            self.screen.blit(torque_label, (self.force_x_input.rect.x - 55, self.force_x_input.rect.y + 220))
+
             force_x_label = SMALL_FONT.render("Force X:", True, self.BLACK)
             self.screen.blit(force_x_label, (self.force_x_input.rect.x - 90, self.force_x_input.rect.y + 10))
 
@@ -365,7 +376,7 @@ class InputNode(Node):
             # Display text values for Joint Efforts
             for i, effort in enumerate(self.joint_effort_values):
                 effort_surface = MED_FONT.render(effort, True, self.BLACK)
-                effort_rect = effort_surface.get_rect(topleft=(5 * self.SCREEN_WIDTH // 6 - 90, 250 + 100 + i * 50))
+                effort_rect = effort_surface.get_rect(topleft=(5 * self.SCREEN_WIDTH // 6 - 60, 250 + 100 + i * 50))
                 self.screen.blit(effort_surface, effort_rect)
 
             # Draw the Move button for MoveL
