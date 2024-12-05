@@ -110,6 +110,64 @@ class InputBox:
             return float(self.text)
         except ValueError:
             return 0.0
+        
+# Add InputBox Class for Text Input
+class InputBox_Scroll:
+    """Class for input fields (X, Y, Z)."""
+    def __init__(self, x, y, width, height, text=""):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.color = GRAY
+        self.text = text
+        self.txt_surface = SMALL_FONT.render(text, True, BLACK)
+        self.active = False
+        self.cursor_visible = True  # Toggle cursor visibility
+        self.cursor_timer = 0       # Timer for cursor blink
+        self.cursor_blink_delay = 2000  # Adjusted delay in milliseconds (slower blink)
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Toggle active state if the user clicks inside the input box
+            self.active = self.rect.collidepoint(event.pos)
+            self.color = BLUE if self.active else GRAY
+
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_RETURN:
+                self.active = False
+                self.color = GRAY
+            elif event.key == pygame.K_BACKSPACE:
+                self.text = self.text[:-1]
+            else:
+                self.text += event.unicode
+            # Re-render the text
+            self.txt_surface = SMALL_FONT.render(self.text, True, BLACK)
+
+    def draw(self, screen):
+        # Draw the box
+        pygame.draw.rect(screen, self.color, self.rect, 2)
+        # Draw the text inside the box
+        screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
+
+        # Draw the cursor
+        if self.active and self.cursor_visible:
+            cursor_x = self.rect.x + 5 + self.txt_surface.get_width()
+            cursor_y = self.rect.y + 5
+            pygame.draw.line(screen, BLACK, (cursor_x, cursor_y), (cursor_x, cursor_y + self.rect.height - 10), 2)
+
+    def update_cursor(self):
+        """Blink the cursor at a slower rate (based on cursor_blink_delay)."""
+        self.cursor_timer += pygame.time.get_ticks()
+        if self.cursor_timer >= self.cursor_blink_delay:  # Slower blink (800ms)
+            self.cursor_visible = not self.cursor_visible
+            self.cursor_timer = 0
+
+    def get_value(self):
+        # Return the value of the input as float (default to 0 if empty)
+        try:
+            return float(self.text)
+        except ValueError:
+            return 0.0
+        
+
 class ScrollBar:
     """Scrollbar Class to handle joint sliders."""
     def __init__(self, x, y, width, height, label, lower_limit, upper_limit):
@@ -124,7 +182,7 @@ class ScrollBar:
         # Add input box for value
         input_box_width = 60
         input_box_height = 30
-        self.input_box = InputBox(
+        self.input_box = InputBox_Scroll(
             x + width//2 - input_box_width//2,  # Center above scrollbar
             y - input_box_height - 5,  # 5 pixels above scrollbar
             input_box_width,
@@ -187,8 +245,8 @@ class ScrollBar:
             # Update both value and input box text when sliding
             self.value = self.lower_limit + ((self.slider_rect.x - self.rect.left) / 
                 (self.rect.width - self.slider_rect.width)) * (self.upper_limit - self.lower_limit)
-            self.input_box.text = f"{self.value:.2f}"
-            self.input_box.txt_surface = FONT.render(self.input_box.text, True, BLACK)
+            # self.input_box.text = f"{self.value:.2f}"
+            # self.input_box.txt_surface = FONT.render(self.input_box.text, True, BLACK)
     def set_value(self, new_value):
         """Set the value and update slider position"""
         self.value = min(max(new_value, self.lower_limit), self.upper_limit)
@@ -201,3 +259,4 @@ class ScrollBar:
 
     def get_value(self):
         return self.value
+    
