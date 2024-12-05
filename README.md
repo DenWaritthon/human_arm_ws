@@ -19,10 +19,8 @@ This project simulate the human arm movement from the shoulder to wrist  that wa
   - [How to use input UI](#how-to-use-input-ui)
   - [How to call simulation by service](#how-to-call-simulation-by-service)
 - [Demos and Result](#demos-and-result)
-  - [MoveJ mode](#movej-mode)
-  - [MoveL\_mode](#movel_mode)
 - [Conclusion](#conclusion)
-- [Future plan](#future-plan)
+- [Future planr](#future-planr)
 - [Developer Member](#developer-member)
   
 # User installation guide 
@@ -164,15 +162,11 @@ ros2 run human_arm_simulation input_node.py
 
 # Demos and Result
 
-## MoveJ mode
-![moveJ](<picture/moveJ.mp4>)
-
-## MoveL_mode
-![moveL](<picture/moveL.mp4>)
+<video controls src="picture/DemoVDO.mp4" title="DemoVDO"></video>
 
 # Conclusion
 
-# Future plan
+# Future planr
 - ควบคุม joint limit ในการ move to target
 - ทดสอบการเคลื่อนที่เทียบกับแขนคน
 - เพิ่มควบคุมส่วนของมือ
