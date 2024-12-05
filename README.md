@@ -165,10 +165,11 @@ ros2 run human_arm_simulation input_node.py
 # Demos and Result
 
 ## MoveJ mode
-[moveJ VDO](picture/moveJ.mov)
+<video controls src="picture/moveJ.mp4" title="moveJ"></video>
+
 
 ## MoveL_mode
-[moveL VDO](picture/moveL.mov)
+<video controls src="picture/moveL.mp4" title="moveL"></video>
 
 # Conclusion
 
