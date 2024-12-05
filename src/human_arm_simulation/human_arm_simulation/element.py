@@ -207,14 +207,23 @@ class InputBox_Scroll:
 
 class ScrollBar:
     """Scrollbar Class to handle joint sliders."""
-    def __init__(self, x, y, width, height, label, lower_limit, upper_limit):
+    def __init__(self, x, y, width, height, label, lower_limit, upper_limit, initial_value=None):
         self.rect = pygame.Rect(x, y, width, height)  # Outer rectangle (track)
         self.slider_rect = pygame.Rect(x, y, height, height)  # Slider button
-        self.value = lower_limit  # Default value starts at lower limit
         self.lower_limit = lower_limit
         self.upper_limit = upper_limit
         self.dragging = False
         self.label = label
+
+        # Set initial value or default to lower_limit if not provided
+        if initial_value is not None:
+            self.value = max(lower_limit, min(upper_limit, initial_value))  # Clamp initial value between limits
+        else:
+            self.value = lower_limit
+
+        # Calculate initial slider position based on value
+        self.slider_rect.x = self.rect.left + ((self.value - self.lower_limit) / 
+            (self.upper_limit - self.lower_limit)) * (self.rect.width - self.slider_rect.width)
 
         # Add input box for value
         input_box_width = 60
