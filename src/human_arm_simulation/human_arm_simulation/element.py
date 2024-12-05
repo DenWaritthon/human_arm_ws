@@ -207,7 +207,6 @@ class ScrollBar:
         input_box_width = 60
         input_box_height = 30
         self.input_box = InputBox_Scroll(
-        self.input_box = InputBox_Scroll(
             x + width//2 - input_box_width//2,  # Center above scrollbar
             y - input_box_height - 5,  # 5 pixels above scrollbar
             input_box_width,
@@ -284,4 +283,3 @@ class ScrollBar:
 
     def get_value(self):
         return self.value
-    

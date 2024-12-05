@@ -128,7 +128,7 @@ class ControllerNode(Node):
         if self.robot_ready:
             self.target[0] = request.target.position.x
             self.target[1] = request.target.position.y
-            self.target[2] = request.target.position.z
+            self.target[2] = request.target.position.z - 1.0
             self.target[3] = request.target.orientation.x
             self.target[4] = request.target.orientation.y
             self.target[5] = request.target.orientation.z
@@ -152,7 +152,7 @@ class ControllerNode(Node):
         if self.robot_ready:
             self.target[0] = request.target.position.x
             self.target[1] = request.target.position.y
-            self.target[2] = request.target.position.z
+            self.target[2] = request.target.position.z - 1.0
             self.target[3] = request.target.orientation.x
             self.target[4] = request.target.orientation.y
             self.target[5] = request.target.orientation.z
