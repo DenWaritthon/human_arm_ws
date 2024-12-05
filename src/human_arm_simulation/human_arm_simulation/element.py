@@ -55,6 +55,7 @@ class Button:
             if self.rect.collidepoint(event.pos):
                 return True  # Button was clicked
         return False
+
 # Add InputBox Class for Text Input
 class InputBox:
     """Class for input fields (X, Y, Z)."""
@@ -126,15 +127,16 @@ class InputBox:
 # Add InputBox Class for Text Input
 class InputBox_Scroll:
     """Class for input fields (X, Y, Z)."""
-    def __init__(self, x, y, width, height, text=""):
+    def __init__(self, x, y, width, height, text="", scrollbar=None):
         self.rect = pygame.Rect(x, y, width, height)
         self.color = GRAY
         self.text = text
         self.txt_surface = SMALL_FONT.render(text, True, BLACK)
         self.active = False
-        self.cursor_visible = True  # Toggle cursor visibility
-        self.cursor_timer = 0       # Timer for cursor blink
-        self.cursor_blink_delay = 2000  # Adjusted delay in milliseconds (slower blink)
+        self.cursor_visible = True
+        self.cursor_timer = 0
+        self.cursor_blink_delay = 2000
+        self.scrollbar = scrollbar
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -147,23 +149,36 @@ class InputBox_Scroll:
                 self.color = GRAY
             elif event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
+                self._update_scrollbar()
             else:
                 # Only allow numbers, minus sign, and decimal point
                 if event.unicode in '0123456789.-':
                     # Check for valid decimal point placement
                     if event.unicode == '.':
-                        if '.' not in self.text:  # Only allow one decimal point
+                        if '.' not in self.text:
                             self.text += event.unicode
+                            self._update_scrollbar()
                     else:
                         # Check decimal places limit
                         if '.' in self.text:
                             decimal_places = len(self.text.split('.')[1]) if len(self.text.split('.')) > 1 else 0
-                            if decimal_places < 2:  # Only allow 2 decimal places
+                            if decimal_places < 2:
                                 self.text += event.unicode
+                                self._update_scrollbar()
                         else:
                             self.text += event.unicode
+                            self._update_scrollbar()
             # Re-render the text
             self.txt_surface = SMALL_FONT.render(self.text, True, BLACK)
+
+    def _update_scrollbar(self):
+        """Update the scrollbar value based on the current input text"""
+        if self.scrollbar and self.text:
+            try:
+                value = float(self.text)
+                self.scrollbar.set_value(value)
+            except ValueError:
+                pass  # Ignore invalid number formats
 
     def draw(self, screen):
         # Draw the box
@@ -211,7 +226,8 @@ class ScrollBar:
             y - input_box_height - 5,  # 5 pixels above scrollbar
             input_box_width,
             input_box_height,
-            text=f"{self.value:.2f}"
+            text=f"{self.value:.2f}",
+            scrollbar=self
         )
 
     def draw(self, screen):
@@ -253,7 +269,7 @@ class ScrollBar:
         # Update slider if input box value changes
         if self.input_box.active and event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
             new_value = self.input_box.get_value()
-            self.set_value(new_value)
+            self.set_value(new_value)  # Update slider position based on input box value
 
         # Handle slider events
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -271,6 +287,7 @@ class ScrollBar:
                 (self.rect.width - self.slider_rect.width)) * (self.upper_limit - self.lower_limit)
             self.input_box.text = f"{self.value:.2f}"
             self.input_box.txt_surface = SMALL_FONT.render(self.input_box.text, True, BLACK)
+
     def set_value(self, new_value):
         """Set the value and update slider position"""
         self.value = min(max(new_value, self.lower_limit), self.upper_limit)
