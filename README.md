@@ -160,7 +160,11 @@ ros2 run human_arm_simulation input_node.py
 สามารถใช้การ call service รูปแบบต่าง ๆ ของ ROS ในการ call ได้ โดยโครงสร้างของแต่ละ service เป็นดังนี้
 ![custorm service](<picture/custorm service.png>)
 
-# Demos and Result
+# Demos a
+
+https://github.com/user-attachments/assets/915b964d-cd14-45ad-b883-2db0a28bd911
+
+nd Result
 
 <video controls src="picture/DemoVDO.mp4" title="DemoVDO"></video>
 
