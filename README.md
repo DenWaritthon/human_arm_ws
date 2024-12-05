@@ -21,7 +21,6 @@ This project simulate the human arm movement from the shoulder to wrist  that wa
 - [Demos and Result](#demos-and-result)
 - [Conclusion](#conclusion)
 - [Future plan](#future-plan)
-- [References](#references)
 - [Developer Member](#developer-member)
   
 # User installation guide 
@@ -141,7 +140,7 @@ ros2 run human_arm_simulation input_node.py
 ![InputUI-1](picture/InputUI-1.jpg)
 
 สามารถใส่ข้อมูลได้ 2 รูปแบบ
-1. กำหนดค่า configulation space ของแต่ละ joint โดยการใช้ slide bar (ตามรูปในส่วนที่ 1)
+1. กำหนดค่า configulation space ของแต่ละ joint โดยการใช้ slide bar หรือ กรอกค่าในช่อง(ตามรูปในส่วนที่ 1)
 2. กำหนดค่า task space ของ target โดยการกรอกค่าลงในแต่ละช่อง (ตามรูปในส่วนที่ 2)
 
 **MoveL**
@@ -166,9 +165,10 @@ ros2 run human_arm_simulation input_node.py
 # Conclusion
 
 # Future plan
-
-# References
-
+- ควบคุม joint limit ในการ move to target
+- ทดสอบการเคลื่อนที่เทียบกับแขนคน
+- เพิ่มควบคุมส่วนของมือ
+   
 # Developer Member
 
 - Waritthon Kongnoo
