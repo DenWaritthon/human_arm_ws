@@ -6,7 +6,6 @@ from rclpy.node import Node
 import roboticstoolbox as rbt
 from spatialmath import *
 import numpy as np
-from math import pi
 from scipy.linalg import svd
 
 from sensor_msgs.msg import JointState
@@ -34,6 +33,7 @@ class JointstateNode(Node):
         self.create_timer(self.dt, self.sim_loop)
 
         # Defind DH-Table 3R-R-3R
+        pi = np.pi
         self.human_arm = rbt.DHRobot([
                 rbt.RevoluteMDH(alpha = pi/2), #joint 1
                 rbt.RevoluteMDH(alpha = pi/2, offset = pi/2), #joint 2

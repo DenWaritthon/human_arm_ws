@@ -144,7 +144,7 @@ class InputNode(Node):
         self.running = True
         
         # MoveJ_q variable
-        self.q_goal = [0, 0, 0, 0, 0, 0, 0]
+        self.q_goal = [-0.87, 0.00, 0.00, 0.00, -1.57, -1.57, -0.34]
 
         # MoveJ_target and MoveL_target variable
         self.target = [0, 0, 0, 0, 0, 0]
@@ -203,16 +203,13 @@ class InputNode(Node):
 
     def joint_effort_callback(self, msg:JointState):
         self.joint_effort = msg.effort
-        self.joint_effort_values[0] = f"Joint1:{round(self.joint_effort[0]),4}"
-        self.joint_effort_values[1] = f"Joint2:{round(self.joint_effort[1]),4}"
-        self.joint_effort_values[2] = f"Joint3:{round(self.joint_effort[2]),4}"
-        self.joint_effort_values[3] = f"Joint4:{round(self.joint_effort[3]),4}"
-        self.joint_effort_values[4] = f"Joint5:{round(self.joint_effort[4]),4}"
-        self.joint_effort_values[5] = f"Joint6:{round(self.joint_effort[5]),4}"
-        self.joint_effort_values[6] = f"Joint7:{round(self.joint_effort[6]),4}"
-
-
-
+        self.joint_effort_values[0] = f"Joint1:{round(self.joint_effort[0],4)}"
+        self.joint_effort_values[1] = f"Joint2:{round(self.joint_effort[1],4)}"
+        self.joint_effort_values[2] = f"Joint3:{round(self.joint_effort[2],4)}"
+        self.joint_effort_values[3] = f"Joint4:{round(self.joint_effort[3],4)}"
+        self.joint_effort_values[4] = f"Joint5:{round(self.joint_effort[4],4)}"
+        self.joint_effort_values[5] = f"Joint6:{round(self.joint_effort[5],4)}"
+        self.joint_effort_values[6] = f"Joint7:{round(self.joint_effort[6],4)}"
 
     def timer_callback(self):
         if not self.running:
@@ -404,8 +401,8 @@ class InputNode(Node):
                     scrollbar.handle_event(event)
 
                 if self.move_button.handle_event(event):  # "Move by Q" Move button
-                    self.show_values = True
-                    self.q_goal = [round(scrollbar.get_value(),4) for scrollbar in self.scrollbars]
+                    # self.show_values = True
+                    self.q_goal = [float(round(scrollbar.get_value(),4)) for scrollbar in self.scrollbars]
                     # print(self.q_goal)
                     self.call_moveJ_q()
                     # print("Move by Q Joint Values:")

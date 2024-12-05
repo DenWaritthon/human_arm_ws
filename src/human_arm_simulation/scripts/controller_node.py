@@ -5,7 +5,6 @@ from rclpy.node import Node
 import roboticstoolbox as rbt
 from spatialmath import *
 import numpy as np
-from math import pi
 
 from human_arm_interfaces.srv import *
 
@@ -26,6 +25,7 @@ class ControllerNode(Node):
         self.calculation_effort_client = self.create_client(JointEffort, '/calculation_effort')
 
         # Defind DH-Table 3R-R-3R
+        pi = np.pi
         self.human_arm = rbt.DHRobot([
                 rbt.RevoluteMDH(alpha = pi/2), #joint 1
                 rbt.RevoluteMDH(alpha = pi/2, offset = pi/2), #joint 2
