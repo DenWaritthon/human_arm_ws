@@ -19,6 +19,8 @@ This project simulate the human arm movement from the shoulder to wrist  that wa
   - [How to use input UI](#how-to-use-input-ui)
   - [How to call simulation by service](#how-to-call-simulation-by-service)
 - [Demos and Result](#demos-and-result)
+  - [MoveJ mode](#movej-mode)
+  - [MoveL\_mode](#movel_mode)
 - [Conclusion](#conclusion)
 - [Future plan](#future-plan)
 - [Developer Member](#developer-member)
@@ -161,6 +163,12 @@ ros2 run human_arm_simulation input_node.py
 ![custorm service](<picture/custorm service.png>)
 
 # Demos and Result
+
+## MoveJ mode
+[moveJ VDO](picture/moveJ.mov)
+
+## MoveL_mode
+[moveL VDO](picture/moveL.mov)
 
 # Conclusion
 
