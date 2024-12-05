@@ -140,32 +140,31 @@ class InputBox_Scroll:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            # Handle mouse click
             self.active = self.rect.collidepoint(event.pos)
             self.color = BLUE if self.active else GRAY
 
         if event.type == pygame.KEYDOWN and self.active:
+            old_text = self.text
+            
             if event.key == pygame.K_RETURN:
                 self.active = False
                 self.color = GRAY
-                self._update_scrollbar()  # Update scrollbar when Enter is pressed
             elif event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
             else:
                 # Allow numbers, minus sign, and decimal point
                 if event.unicode in '0123456789.-':
-                    # Check for valid decimal point placement
-                    if event.unicode == '.':
-                        if '.' not in self.text:  # Only allow one decimal point
-                            self.text += event.unicode
-                    elif event.unicode == '-' and len(self.text) == 0:
-                        # Allow minus sign only at the start
+                    # Handle minus sign
+                    if event.unicode == '-' and len(self.text) == 0:
                         self.text += event.unicode
-                    else:
-                        # Check decimal places limit
+                    # Handle decimal point
+                    elif event.unicode == '.' and '.' not in self.text:
+                        self.text += event.unicode
+                    # Handle numbers
+                    elif event.unicode in '0123456789':
                         if '.' in self.text:
                             decimal_places = len(self.text.split('.')[1]) if len(self.text.split('.')) > 1 else 0
-                            if decimal_places < 2:  # Only allow 2 decimal places
+                            if decimal_places < 2:  # Limit to 2 decimal places
                                 self.text += event.unicode
                         else:
                             self.text += event.unicode
@@ -173,8 +172,8 @@ class InputBox_Scroll:
             # Re-render the text
             self.txt_surface = SMALL_FONT.render(self.text, True, BLACK)
             
-            # Only update scrollbar on Enter key or when a complete valid number is entered
-            if event.key == pygame.K_RETURN:
+            # Try to update scrollbar if text is different
+            if old_text != self.text:
                 self._update_scrollbar()
 
     def _update_scrollbar(self):
@@ -182,42 +181,40 @@ class InputBox_Scroll:
         if self.scrollbar and self.text:
             try:
                 value = float(self.text)
+                # Check if value is within limits
                 if self.scrollbar.lower_limit <= value <= self.scrollbar.upper_limit:
                     self.scrollbar.set_value(value)
             except ValueError:
-                pass  # Ignore invalid number formats
+                # Handle invalid number format (like single "-" or ".")
+                pass
+
+    def get_value(self):
+        try:
+            return float(self.text)
+        except ValueError:
+            return 0.0
 
     def draw(self, screen):
-        # Draw the box
         pygame.draw.rect(screen, self.color, self.rect, 2)
-        # Draw the text inside the box
         screen.blit(self.txt_surface, (self.rect.x + 5, self.rect.y + 5))
-
-        # Draw the cursor
+        
         if self.active and self.cursor_visible:
             cursor_x = self.rect.x + 5 + self.txt_surface.get_width()
             cursor_y = self.rect.y + 5
-            pygame.draw.line(screen, BLACK, (cursor_x, cursor_y), (cursor_x, cursor_y + self.rect.height - 10), 2)
+            pygame.draw.line(screen, BLACK, (cursor_x, cursor_y), 
+                           (cursor_x, cursor_y + self.rect.height - 10), 2)
 
     def update_cursor(self):
-        """Blink the cursor at a slower rate (based on cursor_blink_delay)."""
         self.cursor_timer += pygame.time.get_ticks()
         if self.cursor_timer >= self.cursor_blink_delay:
             self.cursor_visible = not self.cursor_visible
             self.cursor_timer = 0
 
-    def get_value(self):
-        # Return the value of the input as float (default to 0 if empty)
-        try:
-            return float(self.text)
-        except ValueError:
-            return 0.0
-        
 
 class ScrollBar:
     """Scrollbar Class to handle joint sliders."""
     def __init__(self, x, y, width, height, label, lower_limit, upper_limit):
-        self.rect = pygame.Rect(x, y, width, height)  # Outer rectangle (track)s
+        self.rect = pygame.Rect(x, y, width, height)  # Outer rectangle (track)
         self.slider_rect = pygame.Rect(x, y, height, height)  # Slider button
         self.value = lower_limit  # Default value starts at lower limit
         self.lower_limit = lower_limit
@@ -276,7 +273,7 @@ class ScrollBar:
         # Update slider if input box value changes
         if self.input_box.active and event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
             new_value = self.input_box.get_value()
-            self.set_value(new_value)  # Update slider position based on input box value
+            self.set_value(new_value)
 
         # Handle slider events
         if event.type == pygame.MOUSEBUTTONDOWN:
