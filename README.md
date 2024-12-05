@@ -136,6 +136,13 @@ ros2 run human_arm_simulation input_node.py
 ```
 
 ## How to use input UI
+**ขั้นตอนการใช้งาน**
+1. เลือก Move mode ด้านบน ว่าจะใช้ MoveJ หรือ MoveL 
+2. ระบุค่าเพื่อกำหนดการเคลื่อนที่
+3. กด Move หรือ calculate
+
+![InputUI-1](picture/InputUI-1.jpg)
+![InputUI-2](picture/InputUI-2.jpg)
 
 ## How to call simulation by service
 
