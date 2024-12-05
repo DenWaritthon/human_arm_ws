@@ -136,15 +136,28 @@ ros2 run human_arm_simulation input_node.py
 ```
 
 ## How to use input UI
+
+**MoveJ**
+![InputUI-1](picture/InputUI-1.jpg)
+
+สามารถใส่ข้อมูลได้ 2 รูปแบบ
+1. กำหนดค่า configulation space ของแต่ละ joint โดยการใช้ slide bar (ตามรูปในส่วนที่ 1)
+2. กำหนดค่า task space ของ target โดยการกรอกค่าลงในแต่ละช่อง (ตามรูปในส่วนที่ 2)
+
+**MoveL**
+![InputUI-2](picture/InputUI-2.jpg)
+
+สามารถใส่ข้อมูลได้ 2 รูปแบบ
+1. กำหนดค่า task space ของ target โดยการกรอกค่าลงในแต่ละช่อง (ตามรูปในส่วนที่ 3)
+2. กำหนดค่า input wrench ในแต่ละแนวแรงที่กระทำต่อปลายแขน โดยการกรอกค่าลงในแต่ละช่อง และสามารถดูผลการคำนวณ joint effort ได้ที่ด้านข้าง (ตามรูปในส่วนที่ 4)
+3. 
 **ขั้นตอนการใช้งาน**
 1. เลือก Move mode ด้านบน ว่าจะใช้ MoveJ หรือ MoveL 
 2. ระบุค่าเพื่อกำหนดการเคลื่อนที่
 3. กด Move หรือ calculate
 
-![InputUI-1](picture/InputUI-1.jpg)
-![InputUI-2](picture/InputUI-2.jpg)
-
 ## How to call simulation by service
+
 
 # Demos and Result
 
