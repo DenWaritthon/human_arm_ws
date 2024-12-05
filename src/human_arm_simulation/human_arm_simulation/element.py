@@ -147,7 +147,7 @@ class InputBox_Scroll:
             if event.key == pygame.K_RETURN:
                 self.active = False
                 self.color = GRAY
-                self._update_scrollbar()  # Only update scrollbar on Enter
+                self._update_scrollbar()  # Update scrollbar only on Enter
             elif event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
             else:
