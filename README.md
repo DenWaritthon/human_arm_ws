@@ -158,6 +158,8 @@ ros2 run human_arm_simulation input_node.py
 
 ## How to call simulation by service
 
+สามารถใช้การ call service รูปแบบต่าง ๆ ของ ROS ในการ call ได้ โดยโครงสร้างของแต่ละ service เป็นดังนี้
+![custorm service](<picture/custorm service.png>)
 
 # Demos and Result
 
