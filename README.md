@@ -4,8 +4,6 @@ This project simulate the human arm movement from the shoulder to wrist  that wa
 
 
 # Table of Contents
-- [7 DOF MANIPULATOR SIMULATES THE JOINT PATTERN OF A HUMAN ARM KINEMATICS SIMULATION](#7-dof-manipulator-simulates-the-joint-pattern-of-a-human-arm-kinematics-simulation)
-- [Table of Contents](#table-of-contents)
 - [User installation guide](#user-installation-guide)
   - [Prerequisites](#prerequisites)
   - [Install project workspace](#install-project-workspace)
