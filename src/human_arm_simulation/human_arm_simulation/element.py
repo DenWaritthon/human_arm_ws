@@ -151,13 +151,16 @@ class InputBox_Scroll:
                 self.text = self.text[:-1]
                 self._update_scrollbar()
             else:
-                # Only allow numbers, minus sign, and decimal point
+                # Allow numbers, minus sign, and decimal point
                 if event.unicode in '0123456789.-':
                     # Check for valid decimal point placement
                     if event.unicode == '.':
                         if '.' not in self.text:
                             self.text += event.unicode
                             self._update_scrollbar()
+                    elif event.unicode == '-' and len(self.text) == 0:
+                        # Allow minus sign only at the start
+                        self.text += event.unicode
                     else:
                         # Check decimal places limit
                         if '.' in self.text:
@@ -176,7 +179,8 @@ class InputBox_Scroll:
         if self.scrollbar and self.text:
             try:
                 value = float(self.text)
-                self.scrollbar.set_value(value)
+                if self.scrollbar.lower_limit <= value <= self.scrollbar.upper_limit:
+                    self.scrollbar.set_value(value)
             except ValueError:
                 pass  # Ignore invalid number formats
 
@@ -195,7 +199,7 @@ class InputBox_Scroll:
     def update_cursor(self):
         """Blink the cursor at a slower rate (based on cursor_blink_delay)."""
         self.cursor_timer += pygame.time.get_ticks()
-        if self.cursor_timer >= self.cursor_blink_delay:  # Slower blink (800ms)
+        if self.cursor_timer >= self.cursor_blink_delay:
             self.cursor_visible = not self.cursor_visible
             self.cursor_timer = 0
 
