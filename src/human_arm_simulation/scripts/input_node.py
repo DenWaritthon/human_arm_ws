@@ -95,10 +95,22 @@ class InputNode(Node):
             (-0.34, 0.69)
         ]
 
+        # Define initial values for each joint
+        initial_values = [
+            0.0,    # Joint 1
+            0.0,    # Joint 2
+            0.0,    # Joint 3
+            0.2618, # Joint 4 (pi/12)
+            0.0,    # Joint 5
+            0.0,    # Joint 6
+            0.0     # Joint 7
+        ]
+
         self.scrollbars = []
         y_pos = self.left_section_top
-        for i, (lower, upper) in enumerate(joint_limits):
-            self.scrollbars.append(ScrollBar(self.scrollbar_x, y_pos, self.scrollbar_width, self.scrollbar_height, f"Joint:{i+1}", lower, upper))
+        for i, ((lower, upper), initial) in enumerate(zip(joint_limits, initial_values)):
+            self.scrollbars.append(ScrollBar(self.scrollbar_x, y_pos, self.scrollbar_width, self.scrollbar_height, 
+                                           f"Joint:{i+1}", lower, upper, initial_value=initial))
             y_pos += self.scrollbar_spacing
 
         self.move_button = Button(self.scrollbar_x, 850, 100, 50, "Move") 
