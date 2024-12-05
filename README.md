@@ -20,7 +20,7 @@ This project simulate the human arm movement from the shoulder to wrist  that wa
   - [How to call simulation by service](#how-to-call-simulation-by-service)
 - [Demos and Result](#demos-and-result)
 - [Conclusion](#conclusion)
-- [Future planr](#future-planr)
+- [Future plan](#future-plan)
 - [Developer Member](#developer-member)
   
 # User installation guide 
@@ -101,19 +101,19 @@ Define
 
 ![System architecture](<picture/System architecture .png>)
 
-ระบบมีการแบ่งการทำงานออกเป็น Node ย่อยที่ทำหน้าที่แตกต่างกันจำนวน 4 node ประกอบด้วย 
+System seperate the work into sub-node that work differently 4 node considt of
 
-- Input_node เป็น node สำหรับการแสดงผล UI สำหรับการ Input ค่าต่าง ๆ สำหรับการควบคุมการเคลื่อนที่ของ Model และแสดงผลค่า Joint Effort จากการคำนวณ 
+- Input_node is a node that display UI for input value to control movement of the model and display joint effort value from the calculation
 
-- Controller_node เป็น node สำหรับสั่งงานการควบคุมการทำในรูปแบบต่าง ๆ โดยรับ Input จาก Input_node และสั่งงานต่อไปยัง Jointstate_node 
+- Controller_node is a node that command the control to working in various by recieve input from Input_node and then send the command to Jointstate_node 
 
-- Jointstate_node เป็น node สำหรับสั่งงานค่าในการขยับของแต่ละข้อต่อตามคำสั่งที่ได้มาจาก Controller_node 
+- Jointstate_node is a node that command movement of each joint from the Controller_node
 
-- Joint_state_publisher เป็น node สำหรับควบคุมการเคลื่อนที่ของ Model ที่แสดงผลบน RVIZ
+- Joint_state_publisher is a node for control movement of the model that display on the RVIZ
 
 # User guide
 
-หลังจาก clone workspace มาแล้วให้ทำการ buil and source
+After Clone workspace then Build and source
 
 ```
 cd human_arm_ws/
@@ -122,14 +122,14 @@ source install/setup.bash
 ```
 
 ## How to use simulation
-เรียกใช้งาน ระบบ simulation ผ่าน ros
+Run the simulation in ROS2
 
-**เรียกใช้งานระบบ controller**
+**Run controller system**
 ```
 ros2 launch human_arm_simulation human_arm_controller.launch.py
 ```
 
-**เรียกใช้งาน Input UI**
+**Run Input UI**
 ```
 ros2 run human_arm_simulation input_node.py
 ```
@@ -139,38 +139,40 @@ ros2 run human_arm_simulation input_node.py
 **MoveJ**
 ![InputUI-1](picture/InputUI-1.jpg)
 
-สามารถใส่ข้อมูลได้ 2 รูปแบบ
-1. กำหนดค่า configulation space ของแต่ละ joint โดยการใช้ slide bar หรือ กรอกค่าในช่อง(ตามรูปในส่วนที่ 1)
-2. กำหนดค่า task space ของ target โดยการกรอกค่าลงในแต่ละช่อง (ตามรูปในส่วนที่ 2)
+Able to input data 2 ways 
+1. Input configulation space of each joint by using slide bar or Input the value int the box (As shown in the picture 1)  
+2. Input task space value of the target by input the value in the box (As shown in the picture 2)
 
 **MoveL**
 ![InputUI-2](picture/InputUI-2.jpg)
 
-สามารถใส่ข้อมูลได้ 2 รูปแบบ
-1. กำหนดค่า task space ของ target โดยการกรอกค่าลงในแต่ละช่อง (ตามรูปในส่วนที่ 3)
-2. กำหนดค่า input wrench ในแต่ละแนวแรงที่กระทำต่อปลายแขน โดยการกรอกค่าลงในแต่ละช่อง และสามารถดูผลการคำนวณ joint effort ได้ที่ด้านข้าง (ตามรูปในส่วนที่ 4)
-3. 
-**ขั้นตอนการใช้งาน**
-1. เลือก Move mode ด้านบน ว่าจะใช้ MoveJ หรือ MoveL 
-2. ระบุค่าเพื่อกำหนดการเคลื่อนที่
-3. กด Move หรือ calculate
+Able to input data 2 ways 
+1. Input task space value of the target by input the value in the box (As shown in the picture 3)
+2. Input wrench value that effect to end-effector in each axis by input value in each box and the result of the joint effort calculation will be on the side (As shown in the picture 4)
+
+**Usage Step**
+1. Select Move Mode on the top which Mode you want to use MoveJ or MoveL
+2. Specify the value to move
+3. Click Move or Calculate
 
 ## How to call simulation by service
 
-สามารถใช้การ call service รูปแบบต่าง ๆ ของ ROS ในการ call ได้ โดยโครงสร้างของแต่ละ service เป็นดังนี้
-![custorm service](<picture/custorm service.png>)
+Able to use call service in various format of ROS2 to call by the structure of each service as follows
+![custom service](<picture/custorm service.png>)
 
 # Demos and Result
 
 https://github.com/user-attachments/assets/915b964d-cd14-45ad-b883-2db0a28bd911
 
-
 # Conclusion
+Simulation the movement of the human arm using ROS2 Humble and use various python libraries for instance roboticstoolbox, spatialmath, numpy, scipy and pygame for the user interface. This simulation simulate the human arm from the shoulder to the wrist. And 3D visualized by RVIZ in ROS2 that can control manually by input or using the user interface for the easier use.
 
-# Future planr
-- ควบคุม joint limit ในการ move to target
-- ทดสอบการเคลื่อนที่เทียบกับแขนคน
-- เพิ่มควบคุมส่วนของมือ
+But the thing that we have not been done is Test and Validate compare to the real human arm so it will be in our future plans.  
+
+# Future plan
+- Control joint limit to move to the target
+- Test and Validate compare to real human arm
+- Add the hand control
    
 # Developer Member
 
