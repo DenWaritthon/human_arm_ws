@@ -140,6 +140,7 @@ class InputBox_Scroll:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
+            # Handle mouse click
             self.active = self.rect.collidepoint(event.pos)
             self.color = BLUE if self.active else GRAY
 
@@ -147,17 +148,16 @@ class InputBox_Scroll:
             if event.key == pygame.K_RETURN:
                 self.active = False
                 self.color = GRAY
+                self._update_scrollbar()  # Update scrollbar when Enter is pressed
             elif event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
-                self._update_scrollbar()
             else:
                 # Allow numbers, minus sign, and decimal point
                 if event.unicode in '0123456789.-':
                     # Check for valid decimal point placement
                     if event.unicode == '.':
-                        if '.' not in self.text:
+                        if '.' not in self.text:  # Only allow one decimal point
                             self.text += event.unicode
-                            self._update_scrollbar()
                     elif event.unicode == '-' and len(self.text) == 0:
                         # Allow minus sign only at the start
                         self.text += event.unicode
@@ -165,14 +165,17 @@ class InputBox_Scroll:
                         # Check decimal places limit
                         if '.' in self.text:
                             decimal_places = len(self.text.split('.')[1]) if len(self.text.split('.')) > 1 else 0
-                            if decimal_places < 2:
+                            if decimal_places < 2:  # Only allow 2 decimal places
                                 self.text += event.unicode
-                                self._update_scrollbar()
                         else:
                             self.text += event.unicode
-                            self._update_scrollbar()
+
             # Re-render the text
             self.txt_surface = SMALL_FONT.render(self.text, True, BLACK)
+            
+            # Only update scrollbar on Enter key or when a complete valid number is entered
+            if event.key == pygame.K_RETURN:
+                self._update_scrollbar()
 
     def _update_scrollbar(self):
         """Update the scrollbar value based on the current input text"""
