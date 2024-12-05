@@ -292,7 +292,7 @@ class InputNode(Node):
 
         elif self.toggle_buttons[1].active:  # MoveL Mode
             # Draw dividing lines for 3 sections
-            pygame.draw.line(self.screen, self.BLACK, (self.SCREEN_WIDTH // 3 + 50, self.header_height + 100), (self.SCREEN_WIDTH // 3 + 50, self.SCREEN_HEIGHT), 3)
+            pygame.draw.line(self.screen, self.BLACK, (self.SCREEN_WIDTH // 3 + 70, self.header_height + 100), (self.SCREEN_WIDTH // 3 + 70, self.SCREEN_HEIGHT), 3)
 
             # Draw titles for each section
             position_title = MED_FONT.render("Input Target Position", True, self.BLACK)
@@ -376,7 +376,7 @@ class InputNode(Node):
             # Display text values for Joint Efforts
             for i, effort in enumerate(self.joint_effort_values):
                 effort_surface = MED_FONT.render(effort, True, self.BLACK)
-                effort_rect = effort_surface.get_rect(topleft=(5 * self.SCREEN_WIDTH // 6 - 60, 250 + 100 + i * 50))
+                effort_rect = effort_surface.get_rect(topleft=(5 * self.SCREEN_WIDTH // 6 - 90, 250 + 100 + i * 50))
                 self.screen.blit(effort_surface, effort_rect)
 
             # Draw the Move button for MoveL
