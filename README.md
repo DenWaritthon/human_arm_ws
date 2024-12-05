@@ -18,7 +18,7 @@ This project simulate the human arm movement from the shoulder to wrist  that wa
   - [How to use simulation](#how-to-use-simulation)
   - [How to use input UI](#how-to-use-input-ui)
   - [How to call simulation by service](#how-to-call-simulation-by-service)
-- [Demos and Result](#demos-and-result)
+- [Demos](#demos)
 - [Conclusion](#conclusion)
 - [Future planr](#future-planr)
 - [Developer Member](#developer-member)
@@ -160,13 +160,10 @@ ros2 run human_arm_simulation input_node.py
 สามารถใช้การ call service รูปแบบต่าง ๆ ของ ROS ในการ call ได้ โดยโครงสร้างของแต่ละ service เป็นดังนี้
 ![custorm service](<picture/custorm service.png>)
 
-# Demos a
+# Demos
 
 https://github.com/user-attachments/assets/915b964d-cd14-45ad-b883-2db0a28bd911
 
-nd Result
-
-<video controls src="picture/DemoVDO.mp4" title="DemoVDO"></video>
 
 # Conclusion
 
