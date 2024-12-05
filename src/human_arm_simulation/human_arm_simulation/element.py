@@ -144,11 +144,10 @@ class InputBox_Scroll:
             self.color = BLUE if self.active else GRAY
 
         if event.type == pygame.KEYDOWN and self.active:
-            old_text = self.text
-            
             if event.key == pygame.K_RETURN:
                 self.active = False
                 self.color = GRAY
+                self._update_scrollbar()  # Only update scrollbar on Enter
             elif event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
             else:
@@ -171,10 +170,6 @@ class InputBox_Scroll:
 
             # Re-render the text
             self.txt_surface = SMALL_FONT.render(self.text, True, BLACK)
-            
-            # Try to update scrollbar if text is different
-            if old_text != self.text:
-                self._update_scrollbar()
 
     def _update_scrollbar(self):
         """Update the scrollbar value based on the current input text"""
@@ -185,8 +180,7 @@ class InputBox_Scroll:
                 if self.scrollbar.lower_limit <= value <= self.scrollbar.upper_limit:
                     self.scrollbar.set_value(value)
             except ValueError:
-                # Handle invalid number format (like single "-" or ".")
-                pass
+                pass  # Ignore invalid number formats
 
     def get_value(self):
         try:
