@@ -68,11 +68,17 @@ Use to find movement velocity of each joint by using Pseudoinverse method of Jac
 ```math
 \dot{q} = J^{\dagger}(q)\dot{x}
 ```
-"Define"
+Define
 - $\dot{q}$ represent velocity in each joint
 
 - $\dot{x}$ represent velocity of end-effector 
 - $J^{\dagger}(q)$ represent Pseudoinverse method of Jacobian matrix of each joint that was at angle q
+
+And $\dot{x}$ is a constant velocity, set to 0.01 m/s, found from the unit vector of the difference between the current position and the target position, according to the equation.
+
+```math
+\dot{x} = (\frac{target_{pose} - current_{pose}} {||{target_{pose} - current_{pose}}||})0.01
+```
 
 By $J^{\dagger}(q)$  or Pesudoinverse method of jacobian matrix from
 
@@ -168,9 +174,10 @@ Simulation the movement of the human arm using ROS2 Humble and use various pytho
 But the thing that we have not been done is Test and Validate compare to the real human arm so it will be in our future plans.  
 
 # Future plan
-- Control joint limit to move to the target
-- Test and Validate compare to real human arm
-- Add the hand control
+- Test the movement of the simulation system against a real human arm to find the limitations to make the simulation system move as realistically as possible.
+- Add more precise limitations of the Joint limit in all movement modes.
+- Add control in the form of Trajectory to make the simulation system move to the target position more smoothly.
+- Add a simulation system in the hand part to get a more complete simulation of the human arm movement.
    
 # Developer Member
 
